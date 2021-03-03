@@ -9,7 +9,7 @@ Desenvolver o algoritmo básico utilizado nos gps atualmente.
 
 
 ### Tecnologia
-O iFound utilizará a linguagem de programação C (Bibliotecas a definir)s. Será utilizado os conceitos de  Tipo Abstrato de Dados e árvore principalmente. 
+Utilizará a linguagem de programação C (Bibliotecas a definir). Será utilizado os conceitos de  Tipo Abstrato de Dados e árvore principalmente. 
 
 ### Autores
 * Melyssa Mariana Gomes Silva;
