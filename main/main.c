@@ -6,10 +6,13 @@
 
 #include "prototypes.h"
 
+
+
 int main(){
 
      for (;;)
     {
+        defineCor('g');
         printf("\n");
         printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~iWay~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
         printf("                   * Caminhos inteligentes. *\n                    ");
@@ -17,10 +20,11 @@ int main(){
         printf("|Digite um numero correspondente no menu:                         |\n");
         printf("|1. Visualizar mapa;                                              |\n");
         printf("|2. Definir destino;                                              |\n");
-        printf("|3. Verificar trânsito atual;                                     |\n");
-        printf("|4. Visualizar últimos destinos;                                   |\n");
-        printf("|5. Sair;                                   |\n");
+        printf("|3. Verificar transito atual;                                     |\n");
+        printf("|4. Visualizar ultimos destinos;                                  |\n");
+        printf("|5. Sair;                                                         |\n");
         printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+        defineCor('n');
         scanf("%d",&escolha);
 
         switch(escolha){

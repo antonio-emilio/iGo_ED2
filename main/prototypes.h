@@ -9,3 +9,8 @@
 #include <string.h>
 #include "globaldef.h"
 #include "globalvar.h"
+#include "utils.c"
+
+
+/*Protótipo das funções*/
+void defineCor(char c);
