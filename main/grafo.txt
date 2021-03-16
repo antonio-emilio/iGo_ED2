@@ -1,0 +1,15 @@
+0) R.Buriti
+1) R.Palmelo
+2) R.Jarina
+3) R.Bela_Vista
+4) Flamboyant
+5) Carrefour
+
+---
+
+0 -> 2 7
+0 -> 1 7
+0 -> 5 3
+1 -> 4 2
+1 -> 2 2
+4 -> 3 0
