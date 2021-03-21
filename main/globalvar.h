@@ -13,4 +13,4 @@ int tempoEstimado = 0;  /*Tempo estimado de deslocamento.*/
 char *condicao; /*Condição atual do transito*/
 char *nomeLocal;    /*Nome inserido pelo usuário do lugar de partida*/
 char *nomeDestino;  /*Nome inserido pelo usuário do lugar de destino*/
-int modoDepuracao;  /*Modo depuracao para caso o usuario queira verificar todas as rotas existentes.*/
+

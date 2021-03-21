@@ -25,7 +25,7 @@ void dijkstra(graph* g, unsigned int source) {
 	heap *Q;
 
 	g->nodes[source].distance = 0;
-	Q = heap_make(compare, g);
+	Q = criaPilha(compare, g);
 
 	while(!heap_is_empty(Q)) {
 		

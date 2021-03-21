@@ -75,6 +75,6 @@ void liberaGrafo(graph*);
 /*
 	Imprime o grafo no console.
 */
-void mostraCaminhos(graph*, int);
+void mostraCaminhos(graph*, int, int modoDepuracao);
 
 #endif // GRAPH_H

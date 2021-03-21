@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-heap* heap_make(heap_compare* cmp, graph* g) {
+heap* criaPilha(heap_compare* cmp, graph* g) {
 	unsigned int i;
     heap* h = malloc(sizeof(heap));
     h->nodes = malloc(sizeof(node) * (g->node_count) * 2);
@@ -11,7 +11,7 @@ heap* heap_make(heap_compare* cmp, graph* g) {
     h->count = 0;
 	h->g = g;
 	for(i = 0; i < g->node_count; i++) {
-		heap_insert(h, i);
+		inserePilha(h, i);
 	}
     return h;
 }
@@ -72,7 +72,7 @@ void heap_heapify_down(heap* h) {
     }
 }
 
-void heap_insert(heap* h, const unsigned int key) {
+void inserePilha(heap* h, const unsigned int key) {
     if(heap_is_full(h)) { 
         heap_enlarge(h); 
     }

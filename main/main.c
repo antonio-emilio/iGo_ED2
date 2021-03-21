@@ -19,7 +19,8 @@ int main()
     bool started_vertices;
     int src, dest;
     double distance;
-    modoDepuracao = 0;
+    int modoDepuracao = 0;  /*Modo depuracao para caso o usuario queira verificar todas as rotas existentes.*/
+    char texto_str[1024], nomeArquivo[1024];
 
     started_vertices = false;
 
@@ -35,7 +36,8 @@ int main()
         printf("|3. Verificar mapa e transito atual;                              |\n");
         printf("|4. Visualizar ultimos destinos;                                  |\n");
         printf("|5. Modo de depuracao;                                            |\n");
-        printf("|6. Sair;                                                         |\n");
+        printf("|6. Apagar ultimos destinos;                                      |\n");
+        printf("|7. Sair;                                                         |\n");
         printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
         defineCor('n');
         scanf("%d", &escolha);
@@ -51,7 +53,7 @@ int main()
             scanf("%s", &nomeDestino);
 
             FILE *arquivo;
-            char *texto_str, *nomeArquivo;
+
 
             //Abre o arquivo digitado no modo escrita.
             arquivo = fopen("ultimosDestinos.txt", "a");
@@ -107,7 +109,7 @@ int main()
             fclose(f);
 
             dijkstra(g, indiceDoNome(g, &nomeLocal));
-            mostraCaminhos(g, indiceDoNome(g, &nomeDestino));
+            mostraCaminhos(g, indiceDoNome(g, &nomeDestino),modoDepuracao);
 
             break;
 
@@ -153,7 +155,7 @@ int main()
             fclose(f);
 
             dijkstra(g, indiceDoNome(g, "INF-SAMAMBAIA"));
-            mostraCaminhos(g, indiceDoNome(g, &nomeDestino));
+            mostraCaminhos(g, indiceDoNome(g, &nomeDestino),modoDepuracao);
             break;
 
         case 3:
@@ -207,13 +209,13 @@ int main()
                 return (0);
             }
 
-            defineCor('b'); 
-            
+            defineCor('b');
+
             //Enquanto o arquivo não chegar ao fim, fará o print das informações.
             while (fgets(texto_str, 1024, arquivo) != NULL)
                 printf("%s", texto_str);
 
-            defineCor('n'); 
+            defineCor('n');
 
             //Fecha o arquivo.
             fclose(arquivo);
@@ -234,6 +236,28 @@ int main()
             break;
 
         case 6:
+
+            //Abre o arquivo digitado no modo escrita.
+            arquivo = fopen("ultimosDestinos.txt", "w");
+
+            //Se o arquivo não foi criado, retorna erro e finaliza o programa.
+            if (arquivo == NULL)
+            {
+                printf("Erro na abertura do arquivo!");
+                return (0);
+            }
+
+            //Armazena a string dentro do arquivo.
+            fprintf(arquivo, "");
+
+            //Fecha o arquivo.
+            fclose(arquivo);
+
+            printf("\n Ultimos destinos apagados com SUCESSO.\n");
+
+            break;
+
+        case 7:
             liberaGrafo(g);
             return 0;
             break;

@@ -109,13 +109,12 @@ void liberaGrafo(graph *g)
 /*
 	Imprime o resultado no console.
 */
-void mostraCaminhos(graph *g, int highlight_destination)
+void mostraCaminhos(graph *g, int highlight_destination, int modoDepuracao)
 {
 	unsigned int j;
 	int i, count;
 	int index;
 	int *indices;
-
 	count = (int)g->node_count;
 	indices = NULL;
 

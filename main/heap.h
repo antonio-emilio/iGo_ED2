@@ -41,9 +41,9 @@ typedef struct {
 	O(|V| log|V|)
 */	
 
-heap* heap_make(heap_compare*, graph*);
+heap* criaPilha(heap_compare*, graph*);
 
-void heap_insert(heap*, const unsigned int);
+void inserePilha(heap*, const unsigned int);
 
 /*
 	Encontra o item com a maior prioridade, ou seja, o menor índice.
