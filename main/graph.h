@@ -64,17 +64,17 @@ void graph_add_node(graph*, char*);
 /* 
 	Inclui um vértice ao grafo.
 */
-void graph_add_edge(graph*, unsigned int, unsigned int, double);
+void adicionaVertice(graph*, unsigned int, unsigned int, double);
 
 /*
 	Destroi um grafo e libera sua memoria.
 */
 
-void graph_destroy(graph*);
+void liberaGrafo(graph*);
 
 /*
 	Imprime o grafo no console.
 */
-void graph_dump(graph*, int);
+void mostraCaminhos(graph*, int);
 
 #endif // GRAPH_H

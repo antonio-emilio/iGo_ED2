@@ -19,6 +19,7 @@ int main()
     bool started_vertices;
     int src, dest;
     double distance;
+    modoDepuracao = 0;
 
     started_vertices = false;
 
@@ -29,11 +30,11 @@ int main()
         printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~iWay~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
         printf("                   * Caminhos inteligentes. *\n                    ");
         printf("|Digite um numero correspondente no menu:                         |\n");
-        printf("|1. Calcular rota;                                                |\n");
-        printf("|2. Visualizar mapa;                                              |\n");
-        printf("|3. Verificar transito atual;                                     |\n");
+        printf("|1. Calcular rota especifica;                                     |\n");
+        printf("|2. Calcular rota da localizacao atual (INF-SAMAMBAIA);           |\n");
+        printf("|3. Verificar mapa e transito atual;                              |\n");
         printf("|4. Visualizar ultimos destinos;                                  |\n");
-        printf("|5. Atualizar transito;                                           |\n");
+        printf("|5. Modo de depuracao;                                            |\n");
         printf("|6. Sair;                                                         |\n");
         printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
         defineCor('n');
@@ -44,10 +45,29 @@ int main()
         case 1:
 
             printf("\n Onde voce esta?\n");
-            scanf("%d", &indexInicio);
+            scanf("%s", &nomeLocal);
 
             printf("\n Onde deseja ir?\n");
-            scanf("%d", &indexDestino);
+            scanf("%s", &nomeDestino);
+
+            FILE *arquivo;
+            char *texto_str, *nomeArquivo;
+
+            //Abre o arquivo digitado no modo escrita.
+            arquivo = fopen("ultimosDestinos.txt", "a");
+
+            //Se o arquivo não foi criado, retorna erro e finaliza o programa.
+            if (arquivo == NULL)
+            {
+                printf("Erro na abertura do arquivo!");
+                return (0);
+            }
+
+            //Armazena a string dentro do arquivo.
+            fprintf(arquivo, "%s\n", &nomeDestino);
+
+            //Fecha o arquivo.
+            fclose(arquivo);
 
             tempoEstimado = 0;
 
@@ -80,32 +100,141 @@ int main()
                         continue;
                     }
                     sscanf(buffer, "%d -> %d %lf\n", &src, &dest, &distance);
-                    graph_add_edge(g, src, dest, distance);
+                    adicionaVertice(g, src, dest, distance);
                 }
             }
 
-            dijkstra(g, indexInicio);
-            graph_dump(g, indexDestino);
-            graph_destroy(g);
+            fclose(f);
+
+            dijkstra(g, indiceDoNome(g, &nomeLocal));
+            mostraCaminhos(g, indiceDoNome(g, &nomeDestino));
+
             break;
 
         case 2:
-            printf("\n Funcao ainda nao implementada.\n");
+            printf("\n Onde deseja ir?\n");
+            scanf("%s", &nomeDestino);
+
+            tempoEstimado = 0;
+
+            g = graph_make();
+            f = fopen("grafo.txt", "r");
+
+            /* Construção do grafo. */
+            while (fgets(buffer, 100, f) != NULL)
+            {
+                if (!started_vertices)
+                {
+                    if (*buffer == '\n')
+                    {
+                        continue;
+                    }
+                    if (strcmp(buffer, "---\n") == 0)
+                    {
+                        started_vertices = true;
+                        continue;
+                    }
+                    sscanf(buffer, "%d) %[^\n]", &src, ciudad);
+                    ciudad_tmp = malloc(strlen(ciudad) + 1);
+                    strcpy(ciudad_tmp, ciudad);
+                    graph_add_node(g, ciudad_tmp);
+                }
+                else
+                {
+                    if (*buffer == '\n')
+                    {
+                        continue;
+                    }
+                    sscanf(buffer, "%d -> %d %lf\n", &src, &dest, &distance);
+                    adicionaVertice(g, src, dest, distance);
+                }
+            }
+
+            fclose(f);
+
+            dijkstra(g, indiceDoNome(g, "INF-SAMAMBAIA"));
+            mostraCaminhos(g, indiceDoNome(g, &nomeDestino));
             break;
 
         case 3:
-            printf("\n Funcao ainda nao implementada.\n");
+
+            g = graph_make();
+            f = fopen("grafo.txt", "r");
+
+            /* Construção do grafo. */
+            while (fgets(buffer, 100, f) != NULL)
+            {
+                if (!started_vertices)
+                {
+                    if (*buffer == '\n')
+                    {
+                        continue;
+                    }
+                    if (strcmp(buffer, "---\n") == 0)
+                    {
+                        started_vertices = true;
+                        continue;
+                    }
+                    sscanf(buffer, "%d) %[^\n]", &src, ciudad);
+                    ciudad_tmp = malloc(strlen(ciudad) + 1);
+                    strcpy(ciudad_tmp, ciudad);
+                    graph_add_node(g, ciudad_tmp);
+                }
+                else
+                {
+                    if (*buffer == '\n')
+                    {
+                        continue;
+                    }
+                    sscanf(buffer, "%d -> %d %lf\n", &src, &dest, &distance);
+                    adicionaVertice(g, src, dest, distance);
+                }
+            }
+
+            fclose(f);
+            mostraMapaTransito(g);
             break;
 
         case 4:
-            printf("\n Funcao ainda nao implementada.\n");
+            printf("\nUltimos destinos calculados:\n");
+            //Abre o arquivo digitado no modo apenas leitura.
+            arquivo = fopen("ultimosDestinos.txt", "r");
+
+            //Se o arquivo não existe, retorna erro e finaliza o programa.
+            if (arquivo == NULL)
+            {
+                printf("Erro na abertura do arquivo!");
+                return (0);
+            }
+
+            defineCor('b'); 
+            
+            //Enquanto o arquivo não chegar ao fim, fará o print das informações.
+            while (fgets(texto_str, 1024, arquivo) != NULL)
+                printf("%s", texto_str);
+
+            defineCor('n'); 
+
+            //Fecha o arquivo.
+            fclose(arquivo);
             break;
 
         case 5:
-            printf("\n Funcao ainda nao implementada.\n");
+            if (modoDepuracao)
+            {
+                modoDepuracao = 0;
+                printf("\n Modo de depuracao DESATIVADO.\n");
+            }
+            else
+            {
+                modoDepuracao = 1;
+                printf("\n Modo de depuracao ATIVADO.\n");
+            }
+
             break;
 
         case 6:
+            liberaGrafo(g);
             return 0;
             break;
         }

@@ -26,7 +26,7 @@ bool graph_is_full(graph *g)
 */
 void graph_enlarge(graph *g)
 {
-	if (g->node_space == 0)	/*Tamanho igual a zero?*/
+	if (g->node_space == 0) /*Tamanho igual a zero?*/
 	{
 		g->node_space = 1;
 	}
@@ -45,9 +45,9 @@ void graph_add_node(graph *g, char *c)
 	unsigned int count;
 	node *n;
 
-	if (graph_is_full(g))	/*Verifica se o grafo esta cheio.*/
+	if (graph_is_full(g)) /*Verifica se o grafo esta cheio.*/
 	{
-		graph_enlarge(g);	/*Se estiver cheio, aumenta o seu tamanho.*/
+		graph_enlarge(g); /*Se estiver cheio, aumenta o seu tamanho.*/
 	}
 
 	count = g->node_count;
@@ -66,7 +66,7 @@ void graph_add_node(graph *g, char *c)
 /*
 	Adiciona um vertice.
 */
-void graph_add_edge(graph *g, unsigned int i, unsigned int j, double weight)
+void adicionaVertice(graph *g, unsigned int i, unsigned int j, double weight)
 {
 	edge *e;
 	node *n;
@@ -94,7 +94,7 @@ void graph_add_edge(graph *g, unsigned int i, unsigned int j, double weight)
 /*
 	Exclui o grafo.
 */
-void graph_destroy(graph *g)
+void liberaGrafo(graph *g)
 {
 	unsigned int i;
 	for (i = 0; i < g->node_count; i++)
@@ -109,7 +109,7 @@ void graph_destroy(graph *g)
 /*
 	Imprime o resultado no console.
 */
-void graph_dump(graph *g, int highlight_destination)
+void mostraCaminhos(graph *g, int highlight_destination)
 {
 	unsigned int j;
 	int i, count;
@@ -138,40 +138,99 @@ void graph_dump(graph *g, int highlight_destination)
 	{
 		for (j = 0; j < g->nodes[i].edge_count; j++)
 		{
-
 			if (highlight_destination != -1)
 			{
 				if (indices[g->nodes[i].edges[j].destination] == i)
 				{
-					tempoEstimado += (int)g->nodes[i].edges[j].weight; 
+					tempoEstimado += (int)g->nodes[i].edges[j].weight;
 					defineCor('g');
+					printf("\"%s\" -> \"%s\" [ETA: %d min];\n",
+						   g->nodes[i].value,
+						   g->nodes[g->nodes[i].edges[j].destination].value,
+						   (int)g->nodes[i].edges[j].weight);
+
+					defineCor('n');
 				}
-				else
+				else if (modoDepuracao == 1)
 				{
 					defineCor('r');
+					printf("\"%s\" -> \"%s\" [ETA: %d min];\n",
+						   g->nodes[i].value,
+						   g->nodes[g->nodes[i].edges[j].destination].value,
+						   (int)g->nodes[i].edges[j].weight);
+
+					defineCor('n');
 				}
 			}
 			else
 			{
 				defineCor('b');
 			}
-			
-			printf("\"%s\" -> \"%s\" [ETA: %d min];\n",
-				   g->nodes[i].value,
-				   g->nodes[g->nodes[i].edges[j].destination].value,
-				   (int)g->nodes[i].edges[j].weight);
-
-			defineCor('n');
 		}
 	}
 	condicao = "Transito normal.";
 	defineCor('b');
 	printf("ETA total: %d min | Condicao: %s\n", tempoEstimado, condicao);
 	defineCor('n');
-	
+}
 
-	if (highlight_destination != -1)
+
+
+/*
+	Imprime o resultado no console.
+*/
+void mostraMapaTransito(graph *g)
+{
+	unsigned int j;
+	int i, count;
+	int index;
+	int *indices;
+
+	count = (int)g->node_count;
+	indices = NULL;
+
+
+	for (i = 0; i < count; i++)
 	{
-		free(indices);
+		for (j = 0; j < g->nodes[i].edge_count; j++)
+		{
+
+			defineCor('b');
+			printf("\"%s\" -> \"%s\" [ETA: %d min];\n",
+					g->nodes[i].value,
+					g->nodes[g->nodes[i].edges[j].destination].value,
+					(int)g->nodes[i].edges[j].weight);
+
+			defineCor('n');
+
+		}
 	}
+}
+
+
+
+/*
+	Retorna o indice da localizacao, recebendo como parametro o nome e retornando o indice.
+*/
+int indiceDoNome(graph *g, char *nomeLocal)
+{
+	unsigned int j;
+	int i, count;
+	int index;
+	int *indices;
+
+	count = (int)g->node_count;
+	indices = NULL;
+	/*Procura por todos os vertices qual o indice referente ao nome inserido.*/
+	for (i = 0; i < count; i++)
+	{
+
+		if (!strcmp(g->nodes[i].value, nomeLocal))
+		{
+			return i;
+		}
+	}
+
+	/*Se nao encontrou nada, retorna codigo de erro.*/
+	return -1;
 }
