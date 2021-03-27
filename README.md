@@ -1,4 +1,4 @@
-# iWay
+# iGo
 
 <img src="https://cdn.discordapp.com/attachments/764880223560794172/825332830514446336/9lhpx3wZUgfWAJPjYc-33Bs3E0ZWiHseTUBVy9_2oZjdMjyIQFbQAZgQAV8PAzLs-si4k-w9ZEpb7pPaygrtmGY1mPib5M9GtAv6.png">
 
