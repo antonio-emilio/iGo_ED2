@@ -1,53 +1,53 @@
 #include "dijkstra.h"
-#include "heap.h"
+#include "pilha.h"
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
 
 double* distances;
 
-int compare(graph* g, unsigned int i, unsigned int j) {
-    if(g->nodes[i].distance == g->nodes[j].distance) { return 0; }
-    if(g->nodes[i].distance > g->nodes[j].distance) { return 1; }
+int comparar(grafo* g, unsigned int i, unsigned int j) {
+    if(g->nos[i].distancia == g->nos[j].distancia) { return 0; }
+    if(g->nos[i].distancia > g->nos[j].distancia) { return 1; }
     return -1;
 }
 
-void dijkstra(graph* g, unsigned int source) {
+void dijkstra(grafo* g, unsigned int origem) {
 
-	if(source == -1){
+	if(origem == -1){
 		printf("\nLocalizacao nao reconhecida.\n");
 		return;
 	}
 
-	unsigned int u, v, edge_count;
-	node *n, *d;
-	edge *e;
-	heap *Q;
+	unsigned int u, v, contadorVertice;
+	no *n, *d;
+	vertice *e;
+	pilha *Q;
 
-	g->nodes[source].distance = 0;
-	Q = criaPilha(compare, g);
+	g->nos[origem].distancia = 0;
+	Q = criaPilha(comparar, g);
 
-	while(!heap_is_empty(Q)) {
+	while(!pilhaVazia(Q)) {
 		
-		u = heap_delete_min(Q);
-		n = &g->nodes[u];
-		edge_count = n->edge_count;
-		for(v = 0; v < edge_count; v++) {	
+		u = deletaMinPilha(Q);
+		n = &g->nos[u];
+		contadorVertice = n->contadorVertice;
+		for(v = 0; v < contadorVertice; v++) {	
 			
-			e = &n->edges[v];	
-			d = &g->nodes[e->destination];
-			if(d->distance > n->distance + e->weight) {		
-				d->distance = n->distance + e->weight;
+			e = &n->Vertices[v];	
+			d = &g->nos[e->destino];
+			if(d->distancia > n->distancia + e->pesoVertice) {		
+				d->distancia = n->distancia + e->pesoVertice;
 				/* 
 					Atualiza a distância. 
 				*/
-				d->previous = u;
+				d->anterior = u;
 				/* 
 					Atualiza a fila de prioridade (o vértice só pode aumentar em prioridade).
 				*/
-				heap_heapify_up(Q, d->heap_index);			
+				aumentaPrioridade(Q, d->indicePilha);			
 			}
 		}
 	}
-	heap_destroy(Q);
+	destroiPilha(Q);
 }

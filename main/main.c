@@ -3,32 +3,32 @@
 #include "prototypes.h"
 #include <stdbool.h>
 #include <string.h>
-#include "graph.h"
-#include "graph.c"
+#include "grafo.h"
+#include "grafo.c"
 #include "dijkstra.h"
 #include "dijkstra.c"
-#include "heap.h"
-#include "heap.c"
+#include "pilha.h"
+#include "pilha.c"
 
 int main()
 {
-    graph *g;
+    grafo *g;
 
     FILE *f;
-    char buffer[100], ciudad[100], *ciudad_tmp;
-    bool started_vertices;
-    int src, dest;
-    double distance;
+    char buffer[100], aux[100], *temp;
+    bool verticeIniciado;
+    int origem, dest;
+    double distancia;
     int modoDepuracao = 0;  /*Modo depuracao para caso o usuario queira verificar todas as rotas existentes.*/
     char texto_str[1024], nomeArquivo[1024];
 
-    started_vertices = false;
+    verticeIniciado = false;
 
     for (;;)
     {
         defineCor('g');
         printf("\n");
-        printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~iWay~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+        printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~iGo~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
         printf("                   * Caminhos inteligentes. *\n                    ");
         printf("|Digite um numero correspondente no menu:                         |\n");
         printf("|1. Calcular rota especifica;                                     |\n");
@@ -73,13 +73,13 @@ int main()
 
             tempoEstimado = 0;
 
-            g = graph_make();
+            g = criarGrafo();
             f = fopen("grafo.txt", "r");
 
             /* Construção do grafo. */
             while (fgets(buffer, 100, f) != NULL)
             {
-                if (!started_vertices)
+                if (!verticeIniciado)
                 {
                     if (*buffer == '\n')
                     {
@@ -87,13 +87,13 @@ int main()
                     }
                     if (strcmp(buffer, "---\n") == 0)
                     {
-                        started_vertices = true;
+                        verticeIniciado = true;
                         continue;
                     }
-                    sscanf(buffer, "%d) %[^\n]", &src, ciudad);
-                    ciudad_tmp = malloc(strlen(ciudad) + 1);
-                    strcpy(ciudad_tmp, ciudad);
-                    graph_add_node(g, ciudad_tmp);
+                    sscanf(buffer, "%d) %[^\n]", &origem, aux);
+                    temp = malloc(strlen(aux) + 1);
+                    strcpy(temp, aux);
+                    adicionarNo(g, temp);
                 }
                 else
                 {
@@ -101,8 +101,8 @@ int main()
                     {
                         continue;
                     }
-                    sscanf(buffer, "%d -> %d %lf\n", &src, &dest, &distance);
-                    adicionaVertice(g, src, dest, distance);
+                    sscanf(buffer, "%d -> %d %lf\n", &origem, &dest, &distancia);
+                    adicionaVertice(g, origem, dest, distancia);
                 }
             }
 
@@ -119,13 +119,13 @@ int main()
 
             tempoEstimado = 0;
 
-            g = graph_make();
+            g = criarGrafo();
             f = fopen("grafo.txt", "r");
 
             /* Construção do grafo. */
             while (fgets(buffer, 100, f) != NULL)
             {
-                if (!started_vertices)
+                if (!verticeIniciado)
                 {
                     if (*buffer == '\n')
                     {
@@ -133,13 +133,13 @@ int main()
                     }
                     if (strcmp(buffer, "---\n") == 0)
                     {
-                        started_vertices = true;
+                        verticeIniciado = true;
                         continue;
                     }
-                    sscanf(buffer, "%d) %[^\n]", &src, ciudad);
-                    ciudad_tmp = malloc(strlen(ciudad) + 1);
-                    strcpy(ciudad_tmp, ciudad);
-                    graph_add_node(g, ciudad_tmp);
+                    sscanf(buffer, "%d) %[^\n]", &origem, aux);
+                    temp = malloc(strlen(aux) + 1);
+                    strcpy(temp, aux);
+                    adicionarNo(g, temp);
                 }
                 else
                 {
@@ -147,8 +147,8 @@ int main()
                     {
                         continue;
                     }
-                    sscanf(buffer, "%d -> %d %lf\n", &src, &dest, &distance);
-                    adicionaVertice(g, src, dest, distance);
+                    sscanf(buffer, "%d -> %d %lf\n", &origem, &dest, &distancia);
+                    adicionaVertice(g, origem, dest, distancia);
                 }
             }
 
@@ -160,13 +160,13 @@ int main()
 
         case 3:
 
-            g = graph_make();
+            g = criarGrafo();
             f = fopen("grafo.txt", "r");
 
             /* Construção do grafo. */
             while (fgets(buffer, 100, f) != NULL)
             {
-                if (!started_vertices)
+                if (!verticeIniciado)
                 {
                     if (*buffer == '\n')
                     {
@@ -174,13 +174,13 @@ int main()
                     }
                     if (strcmp(buffer, "---\n") == 0)
                     {
-                        started_vertices = true;
+                        verticeIniciado = true;
                         continue;
                     }
-                    sscanf(buffer, "%d) %[^\n]", &src, ciudad);
-                    ciudad_tmp = malloc(strlen(ciudad) + 1);
-                    strcpy(ciudad_tmp, ciudad);
-                    graph_add_node(g, ciudad_tmp);
+                    sscanf(buffer, "%d) %[^\n]", &origem, aux);
+                    temp = malloc(strlen(aux) + 1);
+                    strcpy(temp, aux);
+                    adicionarNo(g, temp);
                 }
                 else
                 {
@@ -188,8 +188,8 @@ int main()
                     {
                         continue;
                     }
-                    sscanf(buffer, "%d -> %d %lf\n", &src, &dest, &distance);
-                    adicionaVertice(g, src, dest, distance);
+                    sscanf(buffer, "%d -> %d %lf\n", &origem, &dest, &distancia);
+                    adicionaVertice(g, origem, dest, distancia);
                 }
             }
 
