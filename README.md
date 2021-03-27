@@ -22,6 +22,16 @@ Utilizará a linguagem de programação C (Bibliotecas a definir). Será utiliza
 * Melyssa Mariana Gomes Silva;
 * Antonio Emílio Pereira;
 
+### Estruturas
+  ### Grafos
+
+| nome                  | tipo                          | descrição                                                 |
+| -------------         | -----------                   | ---                                                       |
+| Nós                   | Lista encadeada de nós        | numero de identificação do aeroporto                      |
+| Contagem do nó        | int                           | nome de completo  do aeroporto                            |
+| Tamanho do nó         | int                           | código de identificação                                   |
+
+
 Ambos alunos de Engenharia de Computação, da Universidade Federal de Goiás.
 
 
