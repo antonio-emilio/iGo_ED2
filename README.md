@@ -1,10 +1,10 @@
 # iWay
 
-<img src="https://lh3.googleusercontent.com/proxy/x6fraQFmhBGyk4_oLD7T5-QbOncydXhp7U_-vFMhrF32gnyfR-RhdbAOZhzbuHarnQjAHLDU0mfyAEIu4wGoJvXD_75tEtL06op_HfgEj_kiFBgxj-SJ-EjOzjdcG_Vn4BCdV5j7A3lbEsk">
+<img src="https://cdn.discordapp.com/attachments/764880223560794172/825332830514446336/9lhpx3wZUgfWAJPjYc-33Bs3E0ZWiHseTUBVy9_2oZjdMjyIQFbQAZgQAV8PAzLs-si4k-w9ZEpb7pPaygrtmGY1mPib5M9GtAv6.png">
 
 
 ### Proposta
-Desenvolver o algoritmo utilizado no GPS atualmente. Consiste basicamente de um sistema de grafos denomidados "Cidade", ao qual será possível escolher dentre vários mapas. Dentro de cada mapa, o usuário poderá escolher até qual ponto ele deseja se locomover. Assim que a entrada de dados é processada, o algoritmo busca qual é o percurso com menor tempo possível, retornando as rotas para o usuário.
+Desenvolver o algoritmo utilizado no GPS atualmente. Consiste basicamente de um sistema de grafos denomidados "Cidade", ao qual será possível escolher dentre vários mapas. Dentro de cada mapa, o usuário poderá escolher até qual ponto ele deseja se locomover. Assim que a entrada de dados é processada, o algoritmo de Dijkstra busca qual é o percurso com menor tempo possível, retornando as rotas para o usuário.
 
 
 ### Funcionalidades
@@ -16,7 +16,7 @@ Desenvolver o algoritmo utilizado no GPS atualmente. Consiste basicamente de um 
 
 
 ### Tecnologia
-Utilizará a linguagem de programação C (Bibliotecas a definir). Será utilizado os conceitos de  Tipo Abstrato de Dados, árvore, grafos, busca e etc. 
+Utilizará a linguagem de programação C. Será utilizado os conceitos de  Tipo Abstrato de Dados, grafos, busca e etc. 
 
 ### Autores
 * Melyssa Mariana Gomes Silva;
@@ -27,9 +27,37 @@ Utilizará a linguagem de programação C (Bibliotecas a definir). Será utiliza
 
 | nome                  | tipo                          | descrição                                                 |
 | -------------         | -----------                   | ---                                                       |
-| Nós                   | Lista encadeada de nós        | numero de identificação do aeroporto                      |
-| Contagem do nó        | int                           | nome de completo  do aeroporto                            |
-| Tamanho do nó         | int                           | código de identificação                                   |
+| Nós                   | Lista encadeada de nós        | Lista de nós que compoem o grafo                          |
+| Contagem do nó        | int                           | Contador atrelado aos nós                                 |
+| Tamanho do nó         | int                           | Tamanho alocado para o nó                                 |
+
+  ### Nós
+
+| nome                  | tipo                          | descrição                                                 |
+| -------------         | -----------                   | ---                                                       |
+| Vértices              | Lista encadeada de vétices    | Lista de vértices que compoem o nó                        |
+| Contagem de vértices  | int                           | Contador de vértices                                      |
+| Tamanho do vértice    | int                           | Tamanho alocado para o vértice                            |
+| Nome do nó            | Ponteiro de char              | Nome de identificação do nó                               |
+
+  ### Vértices
+
+| nome                  | tipo                          | descrição                                                 |
+| -------------         | -----------                   | ---                                                       |
+| Origem                | Ponteiro de nós               | Indicação do nó de origem                                 |
+| Destino               | Ponteiro de nós               | Indicação do nó de destino                                |
+| Peso                  | int                           | Peso atrelado ao vértice                                  |
+
+
+  ### Pilha
+
+| nome                  | tipo                          | descrição                                                 |
+| -------------         | -----------                   | ---                                                       |
+| Nós                   | Ponteiro de nós               | Indicação do nó do topo                                   |
+| Tamanho               | int                           | Indicação da quantidade máxima                            |
+| Contador              | int                           | Indicação da quantidade atual                             |
+| Grafo                 | Ponteiro de grafo             | Grafo ao qual se refere a pilha                           |
+
 
 
 Ambos alunos de Engenharia de Computação, da Universidade Federal de Goiás.
