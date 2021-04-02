@@ -14,3 +14,4 @@
 
 /*Protótipo das funções*/
 void defineCor(char c);
+int *executeQuickSort (void);
