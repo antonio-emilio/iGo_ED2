@@ -41,7 +41,9 @@ int main()
         printf("|5. Modo de depuracao;                                            |\n");
         printf("|6. Apagar ultimos destinos;                                      |\n");
         printf("|7. Atualizar transito;                                           |\n");
-        printf("|8. Sair;                                                         |\n");
+        printf("|8. Incluir ligacao no mapa;                                      |\n");
+        printf("|9. Incluir local no mapa;                                        |\n");
+        printf("|10. Sair;                                                        |\n");
         printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
         defineCor('n');
         scanf("%d", &escolha);
@@ -275,9 +277,6 @@ int main()
                 return (0);
             }
 
-            tempoEstimado = 0;
-
-            g = criarGrafo();
             f = fopen("grafo.txt", "r");
 
             /* Construção do grafo. */
@@ -297,9 +296,6 @@ int main()
                     }
                     sscanf(buffer, "%d) %[^\n]", &origem, aux);
                     fprintf(arquivo, "%s", &buffer);
-                    temp = malloc(strlen(aux) + 1);
-                    strcpy(temp, aux);
-                    adicionarNo(g, temp);
                 }
                 else
                 {
@@ -311,9 +307,6 @@ int main()
                     distancia2 = (rand() % (maximoVRand - minimoVRand + 1)) + minimoVRand;
                     sprintf(buffer, "%d -> %d %d\n", origem, dest, distancia2);
                     fprintf(arquivo, "%s", &buffer);
-                    adicionaVertice(g, origem, dest, distancia);
-
-                    
                 }
             }
 
@@ -322,6 +315,238 @@ int main()
             break;
 
         case 8:
+            //Utiliza a "data" atual para gerar numeros aleatorios.
+            srand(time(0));
+
+            printf("\n Digite o nome do local de origem da ligacao.\n");
+            scanf("%s", &nomeLocal);
+
+            printf("\n Digite o nome do local de destino da ligacao.\n");
+            scanf("%s", &nomeDestino);
+
+            distancia2 = (rand() % (maximoVRand - minimoVRand + 1)) + minimoVRand;
+
+            g = criarGrafo();
+            f = fopen("grafo.txt", "r");
+
+            /* Construção do grafo. */
+            while (fgets(buffer, 100, f) != NULL)
+            {
+                if (!verticeIniciado)
+                {
+                    if (*buffer == '\n')
+                    {
+                        continue;
+                    }
+                    if (strcmp(buffer, "---\n") == 0)
+                    {
+                        verticeIniciado = true;
+                        continue;
+                    }
+                    sscanf(buffer, "%d) %[^\n]", &origem, aux);
+                    temp = malloc(strlen(aux) + 1);
+                    strcpy(temp, aux);
+                    adicionarNo(g, temp);
+                }
+                else
+                {
+                    if (*buffer == '\n')
+                    {
+                        continue;
+                    }
+                    sscanf(buffer, "%d -> %d %lf\n", &origem, &dest, &distancia);
+                    adicionaVertice(g, origem, dest, distancia);
+                }
+            }
+
+            fclose(f);
+
+            //Abre o arquivo digitado no modo escrita.
+            arquivo = fopen("grafo.txt", "a");
+
+            //Se o arquivo não foi criado, retorna erro e finaliza o programa.
+            if (arquivo == NULL)
+            {
+                printf("Erro na abertura do arquivo!");
+                return (0);
+            }
+
+            sprintf(buffer, "%d -> %d %d", indiceDoNome(g, &nomeLocal), indiceDoNome(g, &nomeDestino), distancia2);
+            fprintf(arquivo, "\n%s", &buffer);
+
+            fclose(arquivo);
+            break;
+
+        case 9:
+
+            printf("\n Digite o nome da nova localizacao.\n");
+            scanf("%s", &nomeLocal);
+
+            f = fopen("grafo.txt", "r");
+            int indiceSeparador = 0;
+
+            /* Construção do grafo. */
+            while (fgets(buffer, 100, f) != NULL)
+            {
+
+                if (strcmp(buffer, "---\n") == 0)
+                {
+                    break;
+                }
+                indiceSeparador++;
+            }
+            fclose(f);
+
+            indiceSeparador++;
+            f = fopen("grafo.txt", "r");
+            //Abre o arquivo digitado no modo escrita.
+            arquivo = fopen("grafo_aux.txt", "w");
+
+            //Se o arquivo não foi criado, retorna erro e finaliza o programa.
+            if (arquivo == NULL)
+            {
+                printf("Erro na abertura do arquivo!");
+                return (0);
+            }
+
+            int contAux = 0;
+            /* Construção do grafo. */
+
+            /* Construção do grafo. */
+            while (fgets(buffer, 100, f) != NULL)
+            {
+                contAux++;
+                if (contAux == indiceSeparador)
+                {
+                    sprintf(buffer, "%d) %s\n---\n", indiceSeparador - 1, &nomeLocal);
+                    fprintf(arquivo, "%s", &buffer);
+                }
+                else
+                {
+
+                    if (!verticeIniciado)
+                    {
+                        if (*buffer == '\n')
+                        {
+                            continue;
+                        }
+                        if (strcmp(buffer, "---\n") == 0)
+                        {
+                            fprintf(arquivo, "%s", &buffer);
+                            verticeIniciado = true;
+                            continue;
+                        }
+                        sscanf(buffer, "%d) %[^\n]", &origem, aux);
+                        fprintf(arquivo, "%s", &buffer);
+                    }
+                    else
+                    {
+                        if (*buffer == '\n')
+                        {
+                            continue;
+                        }
+                        sscanf(buffer, "%d -> %d %lf\n", &origem, &dest, &distancia);
+                        distancia2 = (rand() % (maximoVRand - minimoVRand + 1)) + minimoVRand;
+                        sprintf(buffer, "%d -> %d %d\n", origem, dest, distancia2);
+                        fprintf(arquivo, "%s", &buffer);
+                    }
+                }
+            }
+
+            fclose(f);
+            fclose(arquivo);
+
+            //Abre o arquivo digitado no modo escrita.
+            arquivo = fopen("grafo.txt", "w");
+
+            //Se o arquivo não foi criado, retorna erro e finaliza o programa.
+            if (arquivo == NULL)
+            {
+                printf("Erro na abertura do arquivo!");
+                return (0);
+            }
+
+            f = fopen("grafo_aux.txt", "r");
+
+            /* Construção do grafo. */
+            while (fgets(buffer, 100, f) != NULL)
+            {
+                if (!verticeIniciado)
+                {
+                    if (*buffer == '\n')
+                    {
+                        continue;
+                    }
+                    if (strcmp(buffer, "---\n") == 0)
+                    {
+                        fprintf(arquivo, "%s", &buffer);
+                        verticeIniciado = true;
+                        continue;
+                    }
+                    sscanf(buffer, "%d) %[^\n]", &origem, aux);
+                    fprintf(arquivo, "%s", &buffer);
+                }
+                else
+                {
+                    if (*buffer == '\n')
+                    {
+                        continue;
+                    }
+                    sscanf(buffer, "%d -> %d %lf\n", &origem, &dest, &distancia);
+                    fprintf(arquivo, "%s", &buffer);
+                }
+            }
+
+            fclose(f);
+            fclose(arquivo);
+
+            //Abre o arquivo digitado no modo escrita.
+            arquivo = fopen("grafo_cidade.txt", "w");
+
+            //Se o arquivo não foi criado, retorna erro e finaliza o programa.
+            if (arquivo == NULL)
+            {
+                printf("Erro na abertura do arquivo!");
+                return (0);
+            }
+
+            f = fopen("grafo.txt", "r");
+
+            /* Construção do grafo. */
+            while (fgets(buffer, 100, f) != NULL)
+            {
+                if (!verticeIniciado)
+                {
+                    if (*buffer == '\n')
+                    {
+                        continue;
+                    }
+                    if (strcmp(buffer, "---\n") == 0)
+                    {
+                        fprintf(arquivo, "%s", &buffer);
+                        verticeIniciado = true;
+                        continue;
+                    }
+                    sscanf(buffer, "%d) %[^\n]", &origem, aux);
+                    fprintf(arquivo, "%s", &buffer);
+                }
+                else
+                {
+                    if (*buffer == '\n')
+                    {
+                        continue;
+                    }
+                    sscanf(buffer, "%d -> %d %lf\n", &origem, &dest, &distancia);
+                    fprintf(arquivo, "%s", &buffer);
+                }
+            }
+
+            fclose(f);
+            fclose(arquivo);
+
+            break;
+
+        case 10:
             liberaGrafo(g);
             return 0;
             break;
