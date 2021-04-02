@@ -1,0 +1,13 @@
+0) R.Buriti
+1) INF-SAMAMBAIA
+2) R.Jarina
+3) R.Bela_Vista
+4) Flamboyant
+5) Carrefour
+---
+0 -> 2 7
+0 -> 1 10
+0 -> 5 4
+1 -> 4 7
+1 -> 2 9
+4 -> 3 2

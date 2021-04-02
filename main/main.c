@@ -9,17 +9,20 @@
 #include "dijkstra.c"
 #include "pilha.h"
 #include "pilha.c"
+#include <time.h>
 
 int main()
 {
     grafo *g;
 
-    FILE *f;
+    FILE *f, *a;
     char buffer[100], aux[100], *temp;
     bool verticeIniciado;
     int origem, dest;
+    int maximoVRand = 10, minimoVRand = 0;
     double distancia;
-    int modoDepuracao = 0;  /*Modo depuracao para caso o usuario queira verificar todas as rotas existentes.*/
+    int distancia2;
+    int modoDepuracao = 0; /*Modo depuracao para caso o usuario queira verificar todas as rotas existentes.*/
     char texto_str[1024], nomeArquivo[1024];
 
     verticeIniciado = false;
@@ -37,7 +40,8 @@ int main()
         printf("|4. Visualizar ultimos destinos;                                  |\n");
         printf("|5. Modo de depuracao;                                            |\n");
         printf("|6. Apagar ultimos destinos;                                      |\n");
-        printf("|7. Sair;                                                         |\n");
+        printf("|7. Atualizar transito;                                           |\n");
+        printf("|8. Sair;                                                         |\n");
         printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
         defineCor('n');
         scanf("%d", &escolha);
@@ -53,7 +57,6 @@ int main()
             scanf("%s", &nomeDestino);
 
             FILE *arquivo;
-
 
             //Abre o arquivo digitado no modo escrita.
             arquivo = fopen("ultimosDestinos.txt", "a");
@@ -74,7 +77,7 @@ int main()
             tempoEstimado = 0;
 
             g = criarGrafo();
-            f = fopen("grafo.txt", "r");
+            f = fopen("grafo_cidade.txt", "r");
 
             /* Construção do grafo. */
             while (fgets(buffer, 100, f) != NULL)
@@ -109,7 +112,7 @@ int main()
             fclose(f);
 
             dijkstra(g, indiceDoNome(g, &nomeLocal));
-            mostraCaminhos(g, indiceDoNome(g, &nomeDestino),modoDepuracao);
+            mostraCaminhos(g, indiceDoNome(g, &nomeDestino), modoDepuracao);
 
             break;
 
@@ -120,7 +123,7 @@ int main()
             tempoEstimado = 0;
 
             g = criarGrafo();
-            f = fopen("grafo.txt", "r");
+            f = fopen("grafo_cidade.txt", "r");
 
             /* Construção do grafo. */
             while (fgets(buffer, 100, f) != NULL)
@@ -155,13 +158,13 @@ int main()
             fclose(f);
 
             dijkstra(g, indiceDoNome(g, "INF-SAMAMBAIA"));
-            mostraCaminhos(g, indiceDoNome(g, &nomeDestino),modoDepuracao);
+            mostraCaminhos(g, indiceDoNome(g, &nomeDestino), modoDepuracao);
             break;
 
         case 3:
 
             g = criarGrafo();
-            f = fopen("grafo.txt", "r");
+            f = fopen("grafo_cidade.txt", "r");
 
             /* Construção do grafo. */
             while (fgets(buffer, 100, f) != NULL)
@@ -258,6 +261,67 @@ int main()
             break;
 
         case 7:
+
+            //Utiliza a "data" atual para gerar numeros aleatorios.
+            srand(time(0));
+
+            //Abre o arquivo digitado no modo escrita.
+            arquivo = fopen("grafo_cidade.txt", "w");
+
+            //Se o arquivo não foi criado, retorna erro e finaliza o programa.
+            if (arquivo == NULL)
+            {
+                printf("Erro na abertura do arquivo!");
+                return (0);
+            }
+
+            tempoEstimado = 0;
+
+            g = criarGrafo();
+            f = fopen("grafo.txt", "r");
+
+            /* Construção do grafo. */
+            while (fgets(buffer, 100, f) != NULL)
+            {
+                if (!verticeIniciado)
+                {
+                    if (*buffer == '\n')
+                    {
+                        continue;
+                    }
+                    if (strcmp(buffer, "---\n") == 0)
+                    {
+                        fprintf(arquivo, "%s", &buffer);
+                        verticeIniciado = true;
+                        continue;
+                    }
+                    sscanf(buffer, "%d) %[^\n]", &origem, aux);
+                    fprintf(arquivo, "%s", &buffer);
+                    temp = malloc(strlen(aux) + 1);
+                    strcpy(temp, aux);
+                    adicionarNo(g, temp);
+                }
+                else
+                {
+                    if (*buffer == '\n')
+                    {
+                        continue;
+                    }
+                    sscanf(buffer, "%d -> %d %lf\n", &origem, &dest, &distancia);
+                    distancia2 = (rand() % (maximoVRand - minimoVRand + 1)) + minimoVRand;
+                    sprintf(buffer, "%d -> %d %d\n", origem, dest, distancia2);
+                    fprintf(arquivo, "%s", &buffer);
+                    adicionaVertice(g, origem, dest, distancia);
+
+                    
+                }
+            }
+
+            fclose(f);
+            fclose(arquivo);
+            break;
+
+        case 8:
             liberaGrafo(g);
             return 0;
             break;
