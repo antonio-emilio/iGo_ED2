@@ -24,9 +24,12 @@ int main()
     int distancia2;
     int modoDepuracao = 0; /*Modo depuracao para caso o usuario queira verificar todas as rotas existentes.*/
     char texto_str[1024], nomeArquivo[1024];
+    int tempoEstimadoAtual;
 
     verticeIniciado = false;
 
+    nomeLocal = malloc(sizeof(char) * 50);
+    nomeDestino = malloc(sizeof(char) * 50);
     for (;;)
     {
         defineCor('b');
@@ -38,7 +41,7 @@ int main()
                "   *****        **********             ********** ********************    \n"
                "             **          **         *           ********       *******    \n"
                "   *****   *    ******** *****     *    ******* *******        *******    \n"
-               "   *   *   *   *                  *    *         *********    ********    \n"
+               "   *   *   *   *                  *   *          *********    ********    \n"
                "   *   * *   *     ************ *   *            ********************     \n"
                "   *   * *   *     *         ** *   *           *  *****************      \n"
                "   *   *  *   **    ******    *   *   **        *   * *************       \n"
@@ -48,21 +51,20 @@ int main()
                "                                                         ****             \n"
                "                                                          **              \n"
                "                                                                          \n");
-               defineCor('g');
+        defineCor('g');
 
         printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~iGo~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
         printf("                   * Caminhos inteligentes. *                      \n");
         printf("|Digite um numero correspondente no menu:                         |\n");
         printf("|1. Calcular rota especifica;                                     |\n");
-        printf("|2. Calcular rota partindo do (INF-SAMAMBAIA);                    |\n");
-        printf("|3. Verificar mapa e transito atual;                              |\n");
-        printf("|4. Visualizar ultimos destinos;                                  |\n");
-        printf("|5. Modo de depuracao;                                            |\n");
-        printf("|6. Apagar ultimos destinos;                                      |\n");
-        printf("|7. Atualizar transito;                                           |\n");
-        printf("|8. Incluir ligacao no mapa;                                      |\n");
-        printf("|9. Incluir local no mapa;                                        |\n");
-        printf("|10. Sair;                                                        |\n");
+        printf("|2. Verificar mapa e transito atual;                              |\n");
+        printf("|3. Visualizar ultimos destinos;                                  |\n");
+        printf("|4. Modo de depuracao;                                            |\n");
+        printf("|5. Apagar ultimos destinos;                                      |\n");
+        printf("|6. Atualizar transito;                                           |\n");
+        printf("|7. Incluir ligacao no mapa;                                      |\n");
+        printf("|8. Incluir local no mapa;                                        |\n");
+        printf("|9. Sair;                                                        |\n");
         printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
         defineCor('n');
         scanf("%d", &escolha);
@@ -79,6 +81,43 @@ int main()
             printf("\nOnde deseja ir?\n");
             scanf("%s", &nomeDestino);
 
+            tempoEstimado = 0;
+
+            g = criarGrafo();
+            f = fopen("grafo_cidade.txt", "r");
+
+            /* Construção do grafo. */
+            while (fgets(buffer, 100, f) != NULL)
+            {
+                if (!verticeIniciado)
+                {
+                    if (*buffer == '\n')
+                    {
+                        continue;
+                    }
+                    if (strcmp(buffer, "---\n") == 0)
+                    {
+                        verticeIniciado = true;
+                        continue;
+                    }
+                    sscanf(buffer, "%d) %[^\n]", &origem, aux);
+                    temp = malloc(strlen(aux) + 1);
+                    strcpy(temp, aux);
+                    adicionarNo(g, temp);
+                }
+                else
+                {
+                    if (*buffer == '\n')
+                    {
+                        continue;
+                    }
+                    sscanf(buffer, "%d -> %d %lf\n", &origem, &dest, &distancia);
+                    adicionaVertice(g, origem, dest, distancia);
+                }
+            }
+
+            fclose(f);
+
             FILE *arquivo;
 
             //Abre o arquivo digitado no modo escrita.
@@ -91,104 +130,48 @@ int main()
                 return (0);
             }
 
+            time_t rawtime;
+            struct tm *timeinfo;
+
+            time(&rawtime);
+            timeinfo = localtime(&rawtime);
+
             //Armazena a string dentro do arquivo.
-            fprintf(arquivo, "%s\n", &nomeDestino);
+            fprintf(arquivo, "Trajeto: %s -> %s - ", &nomeLocal, &nomeDestino);
 
             //Fecha o arquivo.
             fclose(arquivo);
 
-            tempoEstimado = 0;
-
-            g = criarGrafo();
-            f = fopen("grafo_cidade.txt", "r");
-
-            /* Construção do grafo. */
-            while (fgets(buffer, 100, f) != NULL)
-            {
-                if (!verticeIniciado)
-                {
-                    if (*buffer == '\n')
-                    {
-                        continue;
-                    }
-                    if (strcmp(buffer, "---\n") == 0)
-                    {
-                        verticeIniciado = true;
-                        continue;
-                    }
-                    sscanf(buffer, "%d) %[^\n]", &origem, aux);
-                    temp = malloc(strlen(aux) + 1);
-                    strcpy(temp, aux);
-                    adicionarNo(g, temp);
-                }
-                else
-                {
-                    if (*buffer == '\n')
-                    {
-                        continue;
-                    }
-                    sscanf(buffer, "%d -> %d %lf\n", &origem, &dest, &distancia);
-                    adicionaVertice(g, origem, dest, distancia);
-                }
-            }
-
-            fclose(f);
-
             dijkstra(g, indiceDoNome(g, &nomeLocal));
-            mostraCaminhos(g, indiceDoNome(g, &nomeDestino), modoDepuracao,indiceDoNome(g, &nomeLocal));
-
-            break;
-
-        case 2:
-            /*
-            Faz o calculo de menor caminho partindo do INF-SAMAMBAIA.
-            */
-            printf("\nOnde deseja ir?\n");
-            scanf("%s", &nomeDestino);
-
-            tempoEstimado = 0;
-
-            g = criarGrafo();
-            f = fopen("grafo_cidade.txt", "r");
-
-            /* Construção do grafo. */
-            while (fgets(buffer, 100, f) != NULL)
+            int tempo = mostraCaminhos(g, indiceDoNome(g, &nomeDestino), modoDepuracao, indiceDoNome(g, &nomeLocal));
+            verticeIniciado = false;
+            if (tempo != 0)
             {
-                if (!verticeIniciado)
+
+                //Abre o arquivo digitado no modo escrita.
+                arquivo = fopen("ultimosDestinos.txt", "a");
+
+                //Se o arquivo não foi criado, retorna erro e finaliza o programa.
+                if (arquivo == NULL)
                 {
-                    if (*buffer == '\n')
-                    {
-                        continue;
-                    }
-                    if (strcmp(buffer, "---\n") == 0)
-                    {
-                        verticeIniciado = true;
-                        continue;
-                    }
-                    sscanf(buffer, "%d) %[^\n]", &origem, aux);
-                    temp = malloc(strlen(aux) + 1);
-                    strcpy(temp, aux);
-                    adicionarNo(g, temp);
+                    printf("Erro na abertura do arquivo!");
+                    return (0);
                 }
-                else
-                {
-                    if (*buffer == '\n')
-                    {
-                        continue;
-                    }
-                    sscanf(buffer, "%d -> %d %lf\n", &origem, &dest, &distancia);
-                    adicionaVertice(g, origem, dest, distancia);
-                }
+
+                time_t rawtime;
+                struct tm *timeinfo;
+
+                time(&rawtime);
+                timeinfo = localtime(&rawtime);
+
+                //Armazena a string dentro do arquivo.
+                fprintf(arquivo, " Data e hora do percurso: %s - Tempo de percurso: %d min\n", asctime(timeinfo), tempo);
+
+                //Fecha o arquivo.
+                fclose(arquivo);
             }
-
-            fclose(f);
-
-          
-            dijkstra(g, indiceDoNome(g, "INF-SAMAMBAIA"));
-            mostraCaminhos(g, indiceDoNome(g, &nomeDestino), modoDepuracao,indiceDoNome(g, &nomeLocal));
             break;
-
-        case 3:
+        case 2:
             /*
             Printa toda a cidade e seus respectivos pesos.
             */
@@ -227,9 +210,10 @@ int main()
 
             fclose(f);
             mostraMapaTransito(g);
+            verticeIniciado = false;
             break;
 
-        case 4:
+        case 3:
             /*
             Faz a leitura do arquivo de ultimos registros inseridos no aplicativo.
             */
@@ -256,7 +240,7 @@ int main()
             fclose(arquivo);
             break;
 
-        case 5:
+        case 4:
             /*
             Ativa o modo depuração para verificar todos os trajetos da cidade, ao invés de só o trajeto com o menor caminho.
             */
@@ -273,7 +257,7 @@ int main()
 
             break;
 
-        case 6:
+        case 5:
             /*
             Abre o arquivo no modo de escrita e insere um caractere nulo.
             */
@@ -297,7 +281,7 @@ int main()
 
             break;
 
-        case 7:
+        case 6:
             /*
             Faz a leitura do arquivo de referencia, copiando todo o conteudo para o arquivo de utilização.
             Ao copiar o valor referente ao peso do vértice, gera um valor aleatório dentro de um intervalo e coloca no lugar do valor antigo.
@@ -349,7 +333,7 @@ int main()
 
             break;
 
-        case 8:
+        case 7:
             /*
             Para incluir uma nova ligação no mapa, primeiramente coletamos a origem e o destino.
             Depois disso, montamos o grafo lendo o arquivo para que seja possivel adquirir os numeros referente aos nomes que o usuario digitou.
@@ -491,9 +475,11 @@ int main()
             fclose(arquivo);
             verticeIniciado = false;
 
+            printf("\nNOVA LIGACAO INCLUIDA COM SUCESSO AO MAPA.\n");
+
             break;
 
-        case 9:
+        case 8:
 
             /*
             Para incluir uma nova localizacao, estamos utilizando um arquivo .txt auxiliar.
@@ -653,9 +639,11 @@ int main()
             fclose(arquivo);
             verticeIniciado = false;
 
+            printf("\nNOVO LOCAL INCLUIDO COM SUCESSO AO MAPA.\n");
+
             break;
 
-        case 10:
+        case 9:
             liberaGrafo(g);
             return 0;
             break;

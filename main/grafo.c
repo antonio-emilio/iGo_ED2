@@ -122,7 +122,7 @@ int calculaTempoNormal(int origem2, int destino2)
 	tempoEstimado = 0;
 
 	g2 = criarGrafo();
-	f2 = fopen("grafo_cidade.txt", "r");
+	f2 = fopen("grafo.txt", "r");
 
 	/* Construção do grafo. */
 	while (fgets(buffer, 100, f2) != NULL)
@@ -164,7 +164,7 @@ int calculaTempoNormal(int origem2, int destino2)
 /*
 	Imprime o resultado no console.
 */
-void mostraCaminhos(grafo *g, int destinoMarcado, int modoDepuracao, int origemMarcada)
+int mostraCaminhos(grafo *g, int destinoMarcado, int modoDepuracao, int origemMarcada)
 {
 	unsigned int j;
 	int i, contador;
@@ -227,30 +227,42 @@ void mostraCaminhos(grafo *g, int destinoMarcado, int modoDepuracao, int origemM
 	int tempoEstimadoAtual = tempoEstimado;
 	int tempoNormal = calculaTempoNormal(origemMarcada, destinoMarcado);
 
-	if (tempoEstimadoAtual > tempoNormal)
+	if (tempoEstimadoAtual == 0 && tempoNormal == 0)
 	{
-		condicao = "Transito moderado-pesado.";
 		defineCor('r');
-		printf("ETA total: %d min | Este trajeto geralmente e feito em %d min | Condicao: %s\n", tempoEstimado, tempoNormal, condicao);
+		printf("Nao existem rotas possiveis para o trajeto informado.");
 		defineCor('n');
 	}
 	else
 	{
-		if (tempoEstimadoAtual == tempoNormal)
+
+		if (tempoEstimadoAtual > tempoNormal)
 		{
-			condicao = "Transito normal.";
-			defineCor('b');
-			printf("ETA total: %d min | Este trajeto geralmente e feito em %d min | Condicao: %s\n", tempoEstimado, tempoNormal, condicao);
+			condicao = "Transito moderado-pesado.";
+			defineCor('r');
+			printf("ETA total: %d min | Este trajeto geralmente e feito em %d min | Condicao: %s\n", tempoEstimadoAtual, tempoNormal, condicao);
 			defineCor('n');
 		}
 		else
 		{
-			condicao = "Sem transito no seu trajeto.";
-			defineCor('g');
-			printf("ETA total: %d min | Este trajeto geralmente e feito em %d min | Condicao: %s\n", tempoEstimado, tempoNormal, condicao);
-			defineCor('n');
+			if (tempoEstimadoAtual == tempoNormal)
+			{
+				condicao = "Transito normal.";
+				defineCor('b');
+				printf("ETA total: %d min | Este trajeto geralmente e feito em %d min | Condicao: %s\n", tempoEstimadoAtual, tempoNormal, condicao);
+				defineCor('n');
+			}
+			else
+			{
+				condicao = "Sem transito no seu trajeto.";
+				defineCor('g');
+				printf("ETA total: %d min | Este trajeto geralmente e feito em %d min | Condicao: %s\n", tempoEstimadoAtual, tempoNormal, condicao);
+				defineCor('n');
+			}
 		}
 	}
+
+	return tempoEstimadoAtual;
 }
 
 int mostraCaminhos2(grafo *g, int destinoMarcado, int modoDepuracao, int origemMarcada)
@@ -261,6 +273,7 @@ int mostraCaminhos2(grafo *g, int destinoMarcado, int modoDepuracao, int origemM
 	int *indices;
 	contador = (int)g->contadorNos;
 	indices = NULL;
+	tempoEstimado = 0;
 
 	if (destinoMarcado != -1)
 	{
