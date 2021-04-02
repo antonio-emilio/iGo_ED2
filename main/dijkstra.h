@@ -7,5 +7,6 @@
 */
 
 void dijkstra(grafo*, unsigned int);
+void dijkstra2(grafo*, unsigned int);
 
 #endif

@@ -106,10 +106,65 @@ void liberaGrafo(grafo *g)
 	free(g);
 }
 
+int calculaTempoNormal(int origem2, int destino2)
+{
+	grafo *g2;
+	FILE *f2, *a2;
+	char buffer[100], aux[100], *temp;
+	bool verticeIniciado;
+	int maximoVRand = 10, minimoVRand = 0;
+	double distancia;
+	int distancia2, origem, destino;
+	int modoDepuracao = 0; /*Modo depuracao para caso o usuario queira verificar todas as rotas existentes.*/
+	char texto_str[1024], nomeArquivo[1024];
+	FILE *arquivo;
+
+	tempoEstimado = 0;
+
+	g2 = criarGrafo();
+	f2 = fopen("grafo_cidade.txt", "r");
+
+	/* Construção do grafo. */
+	while (fgets(buffer, 100, f2) != NULL)
+	{
+		if (!verticeIniciado)
+		{
+			if (*buffer == '\n')
+			{
+				continue;
+			}
+			if (strcmp(buffer, "---\n") == 0)
+			{
+				verticeIniciado = true;
+				continue;
+			}
+			sscanf(buffer, "%d) %[^\n]", &origem, aux);
+			temp = malloc(strlen(aux) + 1);
+			strcpy(temp, aux);
+			adicionarNo(g2, temp);
+		}
+		else
+		{
+			if (*buffer == '\n')
+			{
+				continue;
+			}
+			sscanf(buffer, "%d -> %d %lf\n", &origem, &destino, &distancia);
+			adicionaVertice(g2, origem, destino, distancia);
+		}
+	}
+
+	fclose(f2);
+
+	dijkstra2(g2, origem2);
+	int valor = mostraCaminhos2(g2, destino2, modoDepuracao, origem2);
+	return valor;
+}
+
 /*
 	Imprime o resultado no console.
 */
-void mostraCaminhos(grafo *g, int destinoMarcado, int modoDepuracao)
+void mostraCaminhos(grafo *g, int destinoMarcado, int modoDepuracao, int origemMarcada)
 {
 	unsigned int j;
 	int i, contador;
@@ -117,6 +172,7 @@ void mostraCaminhos(grafo *g, int destinoMarcado, int modoDepuracao)
 	int *indices;
 	contador = (int)g->contadorNos;
 	indices = NULL;
+	tempoEstimado = 0;
 
 	if (destinoMarcado != -1)
 	{
@@ -167,13 +223,76 @@ void mostraCaminhos(grafo *g, int destinoMarcado, int modoDepuracao)
 			}
 		}
 	}
-	condicao = "Transito normal.";
-	defineCor('b');
-	printf("ETA total: %d min | Condicao: %s\n", tempoEstimado, condicao);
-	defineCor('n');
+
+	int tempoEstimadoAtual = tempoEstimado;
+	int tempoNormal = calculaTempoNormal(origemMarcada, destinoMarcado);
+
+	if (tempoEstimadoAtual > tempoNormal)
+	{
+		condicao = "Transito moderado-pesado.";
+		defineCor('r');
+		printf("ETA total: %d min | Este trajeto geralmente e feito em %d min | Condicao: %s\n", tempoEstimado, tempoNormal, condicao);
+		defineCor('n');
+	}
+	else
+	{
+		if (tempoEstimadoAtual == tempoNormal)
+		{
+			condicao = "Transito normal.";
+			defineCor('b');
+			printf("ETA total: %d min | Este trajeto geralmente e feito em %d min | Condicao: %s\n", tempoEstimado, tempoNormal, condicao);
+			defineCor('n');
+		}
+		else
+		{
+			condicao = "Sem transito no seu trajeto.";
+			defineCor('g');
+			printf("ETA total: %d min | Este trajeto geralmente e feito em %d min | Condicao: %s\n", tempoEstimado, tempoNormal, condicao);
+			defineCor('n');
+		}
+	}
 }
 
+int mostraCaminhos2(grafo *g, int destinoMarcado, int modoDepuracao, int origemMarcada)
+{
+	unsigned int j;
+	int i, contador;
+	int index;
+	int *indices;
+	contador = (int)g->contadorNos;
+	indices = NULL;
 
+	if (destinoMarcado != -1)
+	{
+		indices = malloc(sizeof(int) * contador);
+		for (i = 0; i < contador; i++)
+		{
+			indices[i] = -1;
+		}
+		index = destinoMarcado;
+		while (g->nos[index].anterior != -1)
+		{
+			indices[index] = g->nos[index].anterior;
+			index = (g->nos[index].anterior);
+		}
+	}
+
+	for (i = 0; i < contador; i++)
+	{
+		for (j = 0; j < g->nos[i].contadorVertice; j++)
+		{
+			if (destinoMarcado != -1)
+			{
+				if (indices[g->nos[i].Vertices[j].destino] == i)
+				{
+					tempoEstimado += (int)g->nos[i].Vertices[j].pesoVertice;
+				}
+			}
+		}
+	}
+
+	return tempoEstimado;
+}
 
 /*
 	Imprime o resultado no console.
@@ -188,7 +307,6 @@ void mostraMapaTransito(grafo *g)
 	contador = (int)g->contadorNos;
 	indices = NULL;
 
-
 	for (i = 0; i < contador; i++)
 	{
 		for (j = 0; j < g->nos[i].contadorVertice; j++)
@@ -196,17 +314,14 @@ void mostraMapaTransito(grafo *g)
 
 			defineCor('b');
 			printf("\"%s\" -> \"%s\" [ETA: %d min];\n",
-					g->nos[i].nome,
-					g->nos[g->nos[i].Vertices[j].destino].nome,
-					(int)g->nos[i].Vertices[j].pesoVertice);
+				   g->nos[i].nome,
+				   g->nos[g->nos[i].Vertices[j].destino].nome,
+				   (int)g->nos[i].Vertices[j].pesoVertice);
 
 			defineCor('n');
-
 		}
 	}
 }
-
-
 
 /*
 	Retorna o indice da localizacao, recebendo como parametro o nome e retornando o indice.
