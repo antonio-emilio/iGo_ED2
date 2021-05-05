@@ -18,16 +18,10 @@
 #include "pilha.h"
 #include "pilha.c"
 #include <time.h>
+#include "hash.c"
 
 
-struct DataItem {
-   int data;   
-   int key;
-};
 
-struct DataItem* hashArray[SIZE]; 
-struct DataItem* dummyItem;
-struct DataItem* item;
 
 /*Protótipo das funções*/
 void defineCor(char c);

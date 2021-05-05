@@ -1,5 +1,13 @@
-#include "prototypes.h"
+#define SIZE 20
 
+struct DataItem {
+   int data;   
+   int key;
+};
+
+struct DataItem* hashArray[SIZE]; 
+struct DataItem* dummyItem;
+struct DataItem* item;
 
 int hashCode(int key) {
    return key % SIZE;
@@ -87,6 +95,8 @@ void display() {
    printf("\n");
 }
 
+/*
+
 int main() {
    dummyItem = (struct DataItem*) malloc(sizeof(struct DataItem));
    dummyItem->data = -1;  
@@ -119,4 +129,4 @@ int main() {
    } else {
       printf("Element not found\n");
    }
-}
+}*/

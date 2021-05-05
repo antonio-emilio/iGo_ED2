@@ -1,7 +1,6 @@
 
 #include "prototypes.h"
 
-
 int main()
 {
     grafo *g;
@@ -10,15 +9,17 @@ int main()
     char buffer[100], aux[100], *temp;
     bool verticeIniciado;
     int origem, dest;
+    char buffe2r[200];
+    int ascValue = 0;
     int maximoVRand = 10, minimoVRand = 1;
     double distancia;
     int distancia2;
     int modoDepuracao = 0; /*Modo depuracao para caso o usuario queira verificar todas as rotas existentes.*/
     char texto_str[1024], nomeArquivo[1024];
-    int tempoEstimadoAtual; //Tempo estimado
-    dummyItem = (struct DataItem*) malloc(sizeof(struct DataItem)); //Tabela HASH
-    dummyItem->data = -1;  //Tabela HASH
-    dummyItem->key = -1; //Tabela HASH
+    int tempoEstimadoAtual;                                         //Tempo estimado
+    dummyItem = (struct DataItem *)malloc(sizeof(struct DataItem)); //Tabela HASH
+    dummyItem->data = -1;                                           //Tabela HASH
+    dummyItem->key = -1;                                            //Tabela HASH
 
     verticeIniciado = false;
 
@@ -164,6 +165,29 @@ int main()
                 //Fecha o arquivo.
                 fclose(arquivo);
             }
+
+            /*Salvando os destinos mais utilizados*/
+            snprintf(buffe2r, strlen(&nomeDestino), "%s\n", &nomeDestino);
+            for (int i = 0; i <= strlen(&nomeDestino); i++)
+            {
+                ascValue += (int)buffe2r[i];
+            }
+
+
+            item = search(ascValue);
+
+            if (item != NULL)
+            {
+                insert(ascValue, ((item->data)+1));
+            }
+            else
+            {
+                insert(ascValue, 1);
+            }
+
+            item = search(ascValue);
+
+
             break;
         case 2:
             /*

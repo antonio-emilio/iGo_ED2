@@ -14,4 +14,5 @@ int tempoEstimadoAtual = 0;
 char *condicao; /*Condição atual do transito*/
 char *nomeLocal;    /*Nome inserido pelo usuário do lugar de partida*/
 char *nomeDestino;  /*Nome inserido pelo usuário do lugar de destino*/
+int valorASCIIDestino;  /*Valor em ASCII do local de destino*/
 
