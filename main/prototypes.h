@@ -10,7 +10,24 @@
 #include "globaldef.h"
 #include "globalvar.h"
 #include "utils.c"
+#include <stdbool.h>
+#include "grafo.h"
+#include "grafo.c"
+#include "dijkstra.h"
+#include "dijkstra.c"
+#include "pilha.h"
+#include "pilha.c"
+#include <time.h>
 
+
+struct DataItem {
+   int data;   
+   int key;
+};
+
+struct DataItem* hashArray[SIZE]; 
+struct DataItem* dummyItem;
+struct DataItem* item;
 
 /*Protótipo das funções*/
 void defineCor(char c);

@@ -4,3 +4,4 @@
     Disciplina: Estrutura de Dados II
 */
 
+#define SIZE 20

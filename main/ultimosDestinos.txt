@@ -1,12 +1,6 @@
-Trajeto: Rua_Buriti -> Walmart -  Data e hora do percurso: Sun Apr 25 14:21:27 2021
- - Tempo de percurso: 2 min
-Trajeto: Rua_Buriti -> Walmart -  Data e hora do percurso: Sun Apr 25 14:22:11 2021
- - Tempo de percurso: 7 min
-Trajeto: Rua_Buriti -> Flamboyant -  Data e hora do percurso: Sun May 02 15:06:11 2021
+Trajeto: Rua_Buriti -> Flamboyant -  Data e hora do percurso: Tue May 04 21:35:38 2021
  - Tempo de percurso: 6 min
-Trajeto: Rua_Buriti -> Flamboyant -  Data e hora do percurso: Sun May 02 15:07:18 2021
- - Tempo de percurso: 9 min
-Trajeto: Rua_Buriti -> Flamboyant -  Data e hora do percurso: Sun May 02 15:08:47 2021
- - Tempo de percurso: 9 min
-Trajeto: Rua_Buriti -> Flamboyant -  Data e hora do percurso: Tue May 04 17:03:27 2021
- - Tempo de percurso: 9 min
+Trajeto: Rua_Buriti -> Flamboyant -  Data e hora do percurso: Tue May 04 21:36:10 2021
+ - Tempo de percurso: 6 min
+Trajeto: Rua_Buriti -> Carrefour -  Data e hora do percurso: Tue May 04 21:52:37 2021
+ - Tempo de percurso: 2 min

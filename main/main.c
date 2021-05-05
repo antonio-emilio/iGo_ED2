@@ -1,15 +1,6 @@
-#include <stdlib.h>
-#include <stdio.h>
+
 #include "prototypes.h"
-#include <stdbool.h>
-#include <string.h>
-#include "grafo.h"
-#include "grafo.c"
-#include "dijkstra.h"
-#include "dijkstra.c"
-#include "pilha.h"
-#include "pilha.c"
-#include <time.h>
+
 
 int main()
 {
@@ -24,7 +15,10 @@ int main()
     int distancia2;
     int modoDepuracao = 0; /*Modo depuracao para caso o usuario queira verificar todas as rotas existentes.*/
     char texto_str[1024], nomeArquivo[1024];
-    int tempoEstimadoAtual;
+    int tempoEstimadoAtual; //Tempo estimado
+    dummyItem = (struct DataItem*) malloc(sizeof(struct DataItem)); //Tabela HASH
+    dummyItem->data = -1;  //Tabela HASH
+    dummyItem->key = -1; //Tabela HASH
 
     verticeIniciado = false;
 
