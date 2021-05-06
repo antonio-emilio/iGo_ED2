@@ -1,4 +1,4 @@
-#include <stdio.h>
+/*#include <stdio.h>
 #include <stdlib.h>
 
 int n, cont = 0;
@@ -41,7 +41,7 @@ void quickSort(int *vetor, int inicio, int fim)
         quickSort(vetor, meio + 1, fim);
     }
     cont++;
-}
+}*/
 /*
 int main()
 {
@@ -76,3 +76,78 @@ int main()
 
     return 0;
 }*/
+
+#include <stdio.h>
+#include <string.h>
+#define max 50 //Tamanho maximo
+struct destino
+{
+    char a[8196];
+};
+
+void quicksort(struct destino items[], int left, int right); //function for quick sort
+
+int doQuickSort()
+{
+    FILE *fp;
+    int i = 0, k = 0, n;
+    char fname[10], str[10], c;
+    struct destino name[max];
+
+    fp = fopen("locaisMapa.txt", "r"); //Abre o arquivo em modo de escrita.
+    while ((c = getc(fp)) != EOF)
+    {
+        if (c == ' ')
+        {
+            str[i] = '\0';
+            strcpy(name[k].a, str); //Copia a string nome por nome
+            i = 0;
+            k++;
+        }
+        else
+        {
+            str[i] = c;
+            i++;
+        }
+    }
+    fclose(fp);
+    quicksort(name, 0, k - 1); //Chamando a função de quicksort
+
+    for (i = 0; i <= k; i++)
+    {
+        printf("%s,", name[i].a); //Faz o pritn dos nomes ordenados.
+    }
+
+    return 0;
+}
+//Função para o quicksort
+void quicksort(struct destino items[], int first, int last)
+{
+    int j, i, pivot;
+    char temp[10];
+    if (first < last)
+    {
+        pivot = first;
+        i = first;
+        j = last;
+        while (i < j)
+        {
+            while ((strcmp(items[i].a, items[pivot].a)) < 0)
+                i++;
+            while ((strcmp(items[j].a, items[pivot].a)) > 0)
+                j--;
+
+            if (i < j)
+            {
+                strcpy(temp, items[i].a); //Troca os valores
+                strcpy(items[i].a, items[j].a);
+                strcpy(items[j].a, temp);
+            }
+        }
+        strcpy(temp, items[pivot].a);
+        strcpy(items[pivot].a, items[j].a);
+        strcpy(items[j].a, temp);
+        quicksort(items, first, j - 1); //Chamada recursiva
+        quicksort(items, j + 1, last);
+    }
+}

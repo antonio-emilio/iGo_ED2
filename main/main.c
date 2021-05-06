@@ -16,17 +16,18 @@ int main()
     int distancia2;
     int modoDepuracao = 0; /*Modo depuracao para caso o usuario queira verificar todas as rotas existentes.*/
     char texto_str[1024], nomeArquivo[1024];
-    int tempoEstimadoAtual;                                         //Tempo estimado
-    dummyItem = (struct DataItem *)malloc(sizeof(struct DataItem)); //Tabela HASH
-    dummyItem->data = -1;                                           //Tabela HASH
-    dummyItem->key = -1;                                            //Tabela HASH
+    int tempoEstimadoAtual; //Tempo estimadochar getDestinosFromFile(void)
 
     verticeIniciado = false;
 
     nomeLocal = malloc(sizeof(char) * 50);
     nomeDestino = malloc(sizeof(char) * 50);
+
     for (;;)
     {
+
+        nomeDestino = "\0";
+
         defineCor('b');
         printf("\n");
         printf("                                                        ******            \n"
@@ -53,13 +54,14 @@ int main()
         printf("|Digite um numero correspondente no menu:                         |\n");
         printf("|1. Calcular rota especifica;                                     |\n");
         printf("|2. Verificar mapa e transito atual;                              |\n");
-        printf("|3. Visualizar ultimos destinos;                                  |\n");
+        printf("|3. Visualizar log de rotas;                                      |\n");
         printf("|4. Modo de depuracao;                                            |\n");
-        printf("|5. Apagar ultimos destinos;                                      |\n");
+        printf("|5. Apagar log de rotas;                                          |\n");
         printf("|6. Atualizar transito;                                           |\n");
         printf("|7. Incluir ligacao no mapa;                                      |\n");
         printf("|8. Incluir local no mapa;                                        |\n");
-        printf("|9. Sair;                                                        |\n");
+        printf("|9. Mostrar locais do mapa;                                       |\n");
+        printf("|10. Sair;                                                        |\n");
         printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
         defineCor('n');
         scanf("%d", &escolha);
@@ -116,7 +118,7 @@ int main()
             FILE *arquivo;
 
             //Abre o arquivo digitado no modo escrita.
-            arquivo = fopen("ultimosDestinos.txt", "a");
+            arquivo = fopen("ultimasRotas.txt", "a");
 
             //Se o arquivo não foi criado, retorna erro e finaliza o programa.
             if (arquivo == NULL)
@@ -144,7 +146,7 @@ int main()
             {
 
                 //Abre o arquivo digitado no modo escrita.
-                arquivo = fopen("ultimosDestinos.txt", "a");
+                arquivo = fopen("ultimasRotas.txt", "a");
 
                 //Se o arquivo não foi criado, retorna erro e finaliza o programa.
                 if (arquivo == NULL)
@@ -166,28 +168,6 @@ int main()
                 fclose(arquivo);
             }
 
-            /*Salvando os destinos mais utilizados*/
-            snprintf(buffe2r, strlen(&nomeDestino), "%s\n", &nomeDestino);
-            for (int i = 0; i <= strlen(&nomeDestino); i++)
-            {
-                ascValue += (int)buffe2r[i];
-            }
-
-
-            item = search(ascValue);
-
-            if (item != NULL)
-            {
-                insert(ascValue, ((item->data)+1));
-            }
-            else
-            {
-                insert(ascValue, 1);
-            }
-
-            item = search(ascValue);
-
-
             break;
         case 2:
             /*
@@ -201,6 +181,7 @@ int main()
             {
                 if (!verticeIniciado)
                 {
+
                     if (*buffer == '\n')
                     {
                         continue;
@@ -237,7 +218,7 @@ int main()
             */
             printf("\nUltimos destinos calculados:\n");
             //Abre o arquivo digitado no modo apenas leitura.
-            arquivo = fopen("ultimosDestinos.txt", "r");
+            arquivo = fopen("ultimasRotas.txt", "r");
 
             //Se o arquivo não existe, retorna erro e finaliza o programa.
             if (arquivo == NULL)
@@ -280,7 +261,7 @@ int main()
             Abre o arquivo no modo de escrita e insere um caractere nulo.
             */
             //Abre o arquivo digitado no modo escrita.
-            arquivo = fopen("ultimosDestinos.txt", "w");
+            arquivo = fopen("ultimasRotas.txt", "w");
 
             //Se o arquivo não foi criado, retorna erro e finaliza o programa.
             if (arquivo == NULL)
@@ -659,9 +640,31 @@ int main()
 
             printf("\nNOVO LOCAL INCLUIDO COM SUCESSO AO MAPA.\n");
 
+            //Abre o arquivo digitado no modo escrita.
+            arquivo = fopen("locaisMapa.txt", "a");
+
+            //Se o arquivo não foi criado, retorna erro e finaliza o, programa.
+            if (arquivo == NULL)
+            {
+                printf("Erro na abertura do arquivo!");
+                return (0);
+            }
+
+            //Armazena a string dentro do arquivo.
+            fprintf(arquivo, "%s ", &nomeLocal);
+
+            //Fecha o arquivo.
+            fclose(arquivo);
+
             break;
 
         case 9:
+            printf("\nMostrando todos os pontos do mapa ordenados.\n");
+            doQuickSort();
+
+            break;
+
+        case 10:
             liberaGrafo(g);
             return 0;
             break;

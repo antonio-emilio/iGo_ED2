@@ -19,7 +19,7 @@
 #include "pilha.c"
 #include <time.h>
 #include "hash.c"
-
+#include "quicksort.c"
 
 
 
