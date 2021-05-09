@@ -16,10 +16,8 @@ int main()
     int distancia2;
     int modoDepuracao = 0; /*Modo depuracao para caso o usuario queira verificar todas as rotas existentes.*/
     char texto_str[1024], nomeArquivo[1024];
-    int tempoEstimadoAtual; //Tempo estimadochar getDestinosFromFile(void)
-
+    int tempoEstimadoAtual; //Tempo estimado
     verticeIniciado = false;
-
     nomeLocal = malloc(sizeof(char) * 50);
     nomeDestino = malloc(sizeof(char) * 50);
 
@@ -659,8 +657,9 @@ int main()
             break;
 
         case 9:
-            printf("\nMostrando todos os pontos do mapa ordenados.\n");
+            printf("\nMostrando todos os pontos do mapa ordenados por quicksort.\n");
             doQuickSort();
+
 
             break;
 

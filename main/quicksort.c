@@ -1,151 +1,124 @@
-/*#include <stdio.h>
-#include <stdlib.h>
-
-int n, cont = 0;
-
-void troca(int *vetor, int i, int j)
-{
-    int aux = vetor[i];
-    vetor[i] = vetor[j];
-    vetor[j] = aux;
-    cont ++;
-}
-
-int partition(int *vetor, int inicio, int fim)
-{
-    int j;
-    int pivot = vetor[fim];
-    int i = inicio - 1, k;
-
-    for (j = inicio; j <= fim - 1; j++)
-    {
-        if (vetor[j] < pivot)
-        {
-            i = i + 1;
-            troca(vetor, i, j);
-        }
-        cont++;
-    }
-    troca(vetor, i + 1, fim);
-    return (i + 1);
-}
-
-void quickSort(int *vetor, int inicio, int fim)
-{
-    int meio, k;
-
-    if (inicio < fim)
-    {
-        meio = partition(vetor, inicio, fim);
-        quickSort(vetor, inicio, meio - 1);
-        quickSort(vetor, meio + 1, fim);
-    }
-    cont++;
-}*/
-/*
-int main()
-{
-    int i;
-    n = 1;
-    cont = 0;
-    while (cont != (n * n))
-    {
-        n = rand() % (1000 + 1 - 1) + 1;
-
-        int *vetor = (int *)malloc(n * sizeof(int));
-
-        for (i = 0; i < n; i++)
-        {
-            vetor[i] = (rand() % (65000 + 1 - 0) + 0);
-        }
-
-        quickSort(vetor, 0, n - 1);
-
-      
-        free(vetor);
-        cont = 0;
-        if( cont == (n * n)){
-              printf("|Contador: %d - N: %d|", cont, n);
-        for (i = 0; i < n; i++)
-        {
-            printf("%d ", vetor[i]);
-        }
-        printf("\n");
-        }
-    }
-
-    return 0;
-}*/
-
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
-#define max 500 //Tamanho maximo
-struct destino
-{
-    char a[100];
-};
 
-void quicksort(struct destino items[], int left, int right); //function for quick sort
+// function for comparing two strings. This function
+// is passed as a parameter to _quickSort() when we
+// want to sort
+int cmpstr(void *v1, void *v2)
+{
+    // casting v1 to char** and then assigning it to
+    // pointer to v1 as v1 is array of characters i.e
+    // strings.
+    char *a1 = *(char **)v1;
+    char *a2 = *(char **)v2;
+    return strcmp(a1, a2);
+}
+
+// function for comparing two strings
+int cmpnum(void *s1, void *s2)
+{
+    // casting s1 to int* so it can be
+    // copied in variable a.
+    int *a = (int *)s1;
+    int *b = (int *)s2;
+    if ((*a) > (*b))
+        return 1;
+    else if ((*a) < (*b))
+        return -1;
+    else
+        return 0;
+}
+
+/* you can also write compare function for floats,
+    chars, double similarly as integer. */
+// function for swap two elements
+void swap(void *v1, void *v2, int size)
+{
+    // buffer is array of characters which will
+    // store element byte by byte
+    char buffer[size];
+
+    // memcpy will copy the contents from starting
+    // address of v1 to length of size in buffer
+    // byte by byte.
+    memcpy(buffer, v1, size);
+    memcpy(v1, v2, size);
+    memcpy(v2, buffer, size);
+}
+
+// v is an array of elements to sort.
+// size is the number of elements in array
+// left and right is start and end of array
+//(*comp)(void*, void*) is a pointer to a function
+// which accepts two void* as its parameter
+void _qsort(void *v, int size, int left, int right,
+            int (*comp)(void *, void *))
+{
+    void *vt, *v3;
+    int i, last, mid = (left + right) / 2;
+    if (left >= right)
+        return;
+
+    // casting void* to char* so that operations
+    // can be done.
+    void *vl = (char *)(v + (left * size));
+    void *vr = (char *)(v + (mid * size));
+    swap(vl, vr, size);
+    last = left;
+    for (i = left + 1; i <= right; i++)
+    {
+
+        // vl and vt will have the starting address
+        // of the elements which will be passed to
+        // comp function.
+        vt = (char *)(v + (i * size));
+        if ((*comp)(vl, vt) > 0)
+        {
+            ++last;
+            v3 = (char *)(v + (last * size));
+            swap(vt, v3, size);
+        }
+    }
+    v3 = (char *)(v + (last * size));
+    swap(vl, v3, size);
+    _qsort(v, size, left, last - 1, comp);
+    _qsort(v, size, last + 1, right, comp);
+}
 
 int doQuickSort()
 {
+
     FILE *fp;
-    int i = 0, k = 0, n;
-    char fname[10], str[10], c;
-    struct destino name[max];
-    char *texto_str[1024];
+    int k = 0, n;
+    char *a;
+    char *arr[1024];
+    char *arr2[1024];
 
+    /*arr[0] = "teste";
+    arr[1] = "ttt";*/
     fp = fopen("locaisMapa.txt", "r"); //Abre o arquivo em modo de escrita.
-    while (fgets(texto_str, 1024, fp) != NULL)
-    
-    fclose(fp);
+    while (fgets(arr, 1024, fp) != NULL) ;
 
-    char *token = strtok(texto_str, " ");
+   // printf("%s",arr);
+
+    char *token = strtok(arr, " ");
 
     while (token != NULL)
     {
-        strcpy(name[k].a, token);
+        
+        strcpy(&arr2[k], &token);
+       // printf("%s", arr2[k]);
         k++;
         token = strtok(NULL, " ");
     }
 
-    quicksort(name, 0, k - 2); //Chamando a função de quicksort
+    fclose(fp);
 
-    for (i = 0; i < k; i++)
-    {
-        printf("%s,", name[i].a); //Faz o print dos nomes ordenados.
-    }
+    _qsort(arr2, sizeof(char *), 0, k-1, (int (*)(void *, void *))(cmpstr));
+//
+    for (int i = 0; i < k; i++)
+       printf("%s ", arr2[i]);
+    printf("\n");
 
-    return 0;
-}
-//Função para o quicksort
-void quicksort(struct destino items[], int first, int last)
-{
-    int j, i, pivot;
-    char temp[10];
-    if (first < last)
-    {
-        pivot = first;
-        i = first;
-        j = last;
-        while (i < j)
-        {
-            while ((strcmp(items[i].a, items[pivot].a)) < 0)
-                i++;
-            while ((strcmp(items[j].a, items[pivot].a)) > 0)
-                j--;
-
-            if (i < j)
-            {
-                strcpy(temp, items[i].a); //Troca os valores
-                strcpy(items[i].a, items[j].a);
-                strcpy(items[j].a, temp);
-            }
-        }
-        strcpy(temp, items[pivot].a);
-        strcpy(items[pivot].a, items[j].a);
-        strcpy(items[j].a, temp);
-        quicksort(items, first, j - 1); //Chamada recursiva
-        quicksort(items, j + 1, last);
-    }
 }

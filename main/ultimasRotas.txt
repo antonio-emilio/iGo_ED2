@@ -236,4 +236,5 @@ Trajeto: Rua_Buriti -> Flamboyant -  Data e hora do percurso: Wed May 05 23:19:0
  - Tempo de percurso: 6 min
 Trajeto: Rua_Buriti -> INF_SAMAMBAIA -  Data e hora do percurso: Wed May 05 23:20:53 2021
  - Tempo de percurso: 1 min
-Trajeto: Rua_Buriti -> Rua_Jacaranda - 
+Trajeto: Rua_Buriti -> Rua_Jacaranda - Trajeto: Rua_Buriti -> Flamboyant -  Data e hora do percurso: Sun May 09 00:12:44 2021
+ - Tempo de percurso: 6 min
