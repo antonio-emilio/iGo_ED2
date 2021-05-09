@@ -65,5 +65,15 @@ Utilizará a linguagem de programação C. Será utilizado os conceitos de  Tipo
 | Grafo                 | Ponteiro de grafo             | Grafo ao qual se refere a pilha                           |
 
 
-
+## Autores
 Ambos alunos de Engenharia de Computação, da Universidade Federal de Goiás.
+
+## Compilação
+Para compilar, basta utilizar o seguinte comando:
+```
+gcc main.c -o run.exe
+```
+Para rodar o programa, basta utilizar o seguinte comando:
+```
+./run.exe
+```
