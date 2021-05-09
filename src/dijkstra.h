@@ -1,3 +1,9 @@
+/*
+    iGo - Caminhos inteligentes.
+    Alunos: Melyssa Mariana Gomes Silva e Antonio Emilio Pereira
+    Disciplina: Estrutura de Dados II
+*/
+
 #ifndef DIJKSTRA_H
 #define DIJKSTRA_H
 #include "grafo.h"

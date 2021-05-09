@@ -78,3 +78,11 @@ Trajeto: Minha-Casa -> UFG -  Data e hora do percurso: Sun May 09 10:43:01 2021
  - Tempo de percurso: 10 min
 Trajeto: Minha-Casa -> UFG -  Data e hora do percurso: Sun May 09 10:43:16 2021
  - Tempo de percurso: 122 min
+Trajeto: Minhði -> HC-UFG - Trajeto: Minhð -> UFG - Trajeto: Minha-Casa -> UFG -  Data e hora do percurso: Sun May 09 11:24:44 2021
+ - Tempo de percurso: 122 min
+Trajeto: Minha-Casa -> HC-UFG -  Data e hora do percurso: Sun May 09 11:25:18 2021
+ - Tempo de percurso: 16 min
+Trajeto: Rua_Buriti -> BR-153 - Trajeto: Rua-Buriti -> BR-153 -  Data e hora do percurso: Sun May 09 11:32:53 2021
+ - Tempo de percurso: 17 min
+Trajeto: Minha-Casa -> UFG -  Data e hora do percurso: Sun May 09 11:39:34 2021
+ - Tempo de percurso: 10 min

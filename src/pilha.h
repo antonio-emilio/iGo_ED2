@@ -1,3 +1,10 @@
+/*
+    iGo - Caminhos inteligentes.
+    Alunos: Melyssa Mariana Gomes Silva e Antonio Emilio Pereira
+    Disciplina: Estrutura de Dados II
+*/
+
+
 #ifndef PILHA_H
 #define PILHA_H
 

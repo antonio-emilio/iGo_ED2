@@ -5,9 +5,14 @@
 */
 
 #include <stdio.h>
+/*
+    iGo - Caminhos inteligentes.
+    Alunos: Melyssa Mariana Gomes Silva e Antonio Emilio Pereira
+    Disciplina: Estrutura de Dados II
+*/
+
 #include <stdlib.h>
 #include <string.h>
-#include "globaldef.h"
 #include "globalvar.h"
 #include "utils.c"
 #include <stdbool.h>
@@ -23,7 +28,7 @@
 
 
 
-/*Protótipo das funções*/
+/*Protótipo de funções*/
 void defineCor(char c);
-int *executeQuickSort (void);
+int doQuickSort(void);
 void atualizaTransito(void);

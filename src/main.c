@@ -1,31 +1,32 @@
+/*
+    iGo - Caminhos inteligentes.
+    Alunos: Melyssa Mariana Gomes Silva e Antonio Emilio Pereira
+    Disciplina: Estrutura de Dados II
+*/
 
 #include "prototypes.h"
 
 int main()
 {
-    grafo *g;
-
-    FILE *f, *a;
-    char buffer[100], aux[100], *temp;
-    bool verticeIniciado;
-    int origem, dest;
-    char buffe2r[200];
-    int ascValue = 0;
-    int maximoVRand = 10, minimoVRand = 1;
-    double distancia;
-    int distancia2;
+    /*Instanciando e declarando variaveis locais*/
+    grafo *g;   /*Cria o ponteiro de grafo*/
+    FILE *f, *a;    /*Cria os ponteiros de arquivo*/
+    char buffer[100], aux[100], *temp;  /*Estruturas auxiliares*/
+    bool verticeIniciado = false;   /*Variavel para identificar a separacao entre vertices e nos dentro do arquivo de texto*/
+    int origem, dest, distancia2;   /*Variavel auxiliar para determinacao de origem, destino e distancia*/
+    int maximoVRand = 10, minimoVRand = 1;  /*Variavel auxiliar para geracao de valores aleatorios*/
+    double distancia;   /*Variavel que recebe a distancia (peso) em minutos de um trajeto*/
     int modoDepuracao = 0; /*Modo depuracao para caso o usuario queira verificar todas as rotas existentes.*/
-    char texto_str[1024], nomeArquivo[1024];
-    int tempoEstimadoAtual; //Tempo estimado
-    verticeIniciado = false;
-    nomeLocal = malloc(sizeof(char) * 50);
-    nomeDestino = malloc(sizeof(char) * 50);
+    char texto_str[1024], nomeArquivo[1024];    /*Variaveis auxiliares para trabalhar com strings*/
+    int tempoEstimadoAtual; /*Variavel auxiliar para totalizacao de minutos em um trajeto.*/
+    nomeLocal = malloc(sizeof(char) * 50);  /*Malloc do ponteiro de char referente a origem do trajeto*/
+    nomeDestino = malloc(sizeof(char) * 50); /*Malloc do ponteiro de char referente ao destino  do trajeto*/
 
+    /*Sempre volta ao menu depois que alguma opcao e escolhida.*/
     for (;;)
     {
 
         nomeDestino = "\0";
-
         defineCor('b');
         printf("\n");
         printf("                                                        ******            \n"
