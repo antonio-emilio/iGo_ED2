@@ -258,22 +258,16 @@ int main()
             /*
             Abre o arquivo no modo de escrita e insere um caractere nulo.
             */
-            //Abre o arquivo digitado no modo escrita.
-            arquivo = fopen("ultimasRotas.txt", "w");
+            arquivo = fopen("ultimasRotas.txt", "w");/*Abre o arquivo digitado no modo escrita.*/
 
-            //Se o arquivo não foi criado, retorna erro e finaliza o programa.
+            /*Se o arquivo não foi criado, retorna erro e finaliza o programa.*/
             if (arquivo == NULL)
             {
                 printf("Erro na abertura do arquivo!");
                 return (0);
             }
-
-            //Armazena a string dentro do arquivo.
-            fprintf(arquivo, "");
-
-            //Fecha o arquivo.
-            fclose(arquivo);
-
+            fprintf(arquivo, "");/*Armazena a string dentro do arquivo.*/
+            fclose(arquivo);  /*Fecha o arquivo.*/
             printf("\n Ultimos destinos apagados com SUCESSO.\n");
 
             break;
@@ -283,7 +277,7 @@ int main()
             Faz a leitura do arquivo de referencia, copiando todo o conteudo para o arquivo de utilização.
             Ao copiar o valor referente ao peso do vértice, gera um valor aleatório dentro de um intervalo e coloca no lugar do valor antigo.
             */
-            srand(time(0)); //Utiliza a "data" atual para gerar numeros aleatorios.
+            srand(time(0)); //Utiliza o "timestamp" atual para gerar numeros aleatorios.
 
             arquivo = fopen("grafo_cidade.txt", "w");
             if (arquivo == NULL)
@@ -336,7 +330,7 @@ int main()
             Depois disso, montamos o grafo lendo o arquivo para que seja possivel adquirir os numeros referente aos nomes que o usuario digitou.
             Logo, ao finalizar, escrevemos ao final do arquivo a nova conexao.
             */
-            srand(time(0)); //Utiliza a "data" atual para gerar numeros aleatorios.
+            srand(time(0)); //Utiliza o "timestamp" atual para gerar numeros aleatorios.
 
             printf("\n Digite o nome do local de origem da ligacao.\n");
             scanf("%s", &nomeLocal);
@@ -631,28 +625,21 @@ int main()
                     fprintf(arquivo, "%s", &buffer);
                 }
             }
-
+            /*Fecha os arquivos abertos no momento.*/
             fclose(f);
             fclose(arquivo);
             verticeIniciado = false;
-
             printf("\nNOVO LOCAL INCLUIDO COM SUCESSO AO MAPA.\n");
+            arquivo = fopen("locaisMapa.txt", "a");/*Abre o arquivo digitado no modo escrita.*/
 
-            //Abre o arquivo digitado no modo escrita.
-            arquivo = fopen("locaisMapa.txt", "a");
-
-            //Se o arquivo não foi criado, retorna erro e finaliza o, programa.
+            /*Se o arquivo não foi criado, retorna erro e finaliza o, programa.*/
             if (arquivo == NULL)
             {
                 printf("Erro na abertura do arquivo!");
                 return (0);
             }
-
-            //Armazena a string dentro do arquivo.
-            fprintf(arquivo, "%s ", &nomeLocal);
-
-            //Fecha o arquivo.
-            fclose(arquivo);
+            fprintf(arquivo, "%s ", &nomeLocal);/*Armazena a string dentro do arquivo.*/
+            fclose(arquivo);/*Fecha o arquivo*/
 
             break;
 

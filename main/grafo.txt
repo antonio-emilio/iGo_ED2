@@ -1,26 +1,28 @@
-0) Rua_Buriti
-1) INF_SAMAMBAIA
-2) Rua_Jarina
-3) Rua_Bela_Vista
+0) Minha-Casa
+1) Rua-Buriti
+2) Rua-Bela-Vista
+3) Carrefour
 4) Flamboyant
-5) Carrefour
-6) Leroy_Merlin
-7) Passeio_das_Aguas
-8) UFG_Universitario
-9) Banco_do_Brasil
-10) Walmart
-11) Minha_Casa
-12) Instituto_San_Damiano
-13) Parque_Flamboyant
-14) Parque_Vaca_Brava
+5) Av-Jamel-Cecilio
+6) Marginal-Botafogo
+7) Av-Universitaria
+8) UFG
+9) BR-153
+10) HC-UFG
 ---
-0 -> 2 8
-0 -> 1 1
-0 -> 5 2
-1 -> 4 5
+0 -> 1 7
+0 -> 7 250
 1 -> 2 3
-4 -> 3 10
-0 -> 10 3
-0 -> 9 8
-0 -> 11 2
-11 -> 4 5
+2 -> 5 5
+5 -> 4 2
+5 -> 3 6
+5 -> 6 2
+5 -> 9 2
+9 -> 2 3
+7 -> 8 5
+2 -> 3 52
+6 -> 7 100
+8 -> 7 5
+7 -> 6 5
+6 -> 5 5
+8 -> 10 1

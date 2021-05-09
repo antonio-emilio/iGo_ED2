@@ -94,31 +94,22 @@ int doQuickSort()
     char *a;
     char *arr[1024];
     char *arr2[1024];
-
-    /*arr[0] = "teste";
-    arr[1] = "ttt";*/
     fp = fopen("locaisMapa.txt", "r"); //Abre o arquivo em modo de escrita.
-    while (fgets(arr, 1024, fp) != NULL) ;
-
-   // printf("%s",arr);
-
+    while (fgets(arr, 1024, fp) != NULL)
+        ;
     char *token = strtok(arr, " ");
 
     while (token != NULL)
     {
-        
         strcpy(&arr2[k], &token);
-       // printf("%s", arr2[k]);
         k++;
         token = strtok(NULL, " ");
     }
 
     fclose(fp);
 
-    _qsort(arr2, sizeof(char *), 0, k-1, (int (*)(void *, void *))(cmpstr));
-//
-    for (int i = 0; i < k; i++)
-       printf("%s ", arr2[i]);
-    printf("\n");
+    _qsort(arr2, sizeof(char *), 0, k - 1, (int (*)(void *, void *))(cmpstr));
 
+    for (int i = 0; i < k; i++)
+        printf("%s \n", arr2[i]);
 }

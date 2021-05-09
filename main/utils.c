@@ -39,3 +39,4 @@ void defineCor(char c)
         break;
     }
 }
+
