@@ -106,3 +106,5 @@ Trajeto: °u -> Š’@ -  Data e hora do percurso: Sun May 09 12:30:19 2021
  - Tempo de percurso: 12 min
 Trajeto: °u -> Š’@ -  Data e hora do percurso: Sun May 09 12:30:31 2021
  - Tempo de percurso: 9 min
+Trajeto: ° -> p’@ -  Data e hora do percurso: Sun May 09 12:32:04 2021
+ - Tempo de percurso: 7 min

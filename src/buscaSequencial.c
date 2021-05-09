@@ -93,10 +93,8 @@ int ExecutaBuscaSequencial(int valor)
     {
         inserirElementos(l, i);
     }
-    imprime(l);
 
     int indice = buscaSequencial(l, valor);
-    printf("\nValor esta no indice %d\n", indice);
 
-    return valor;
+    return indice;
 }
