@@ -28,6 +28,8 @@ Utilizará a linguagem de programação C. Será utilizado os conceitos de  Tipo
 * Melyssa Mariana Gomes Silva;
 * Antonio Emílio Pereira;
 
+Ambos alunos de Engenharia de Computação, da Universidade Federal de Goiás.
+
 ## Estruturas
   ### Grafos
 
@@ -63,10 +65,6 @@ Utilizará a linguagem de programação C. Será utilizado os conceitos de  Tipo
 | Tamanho               | int                           | Indicação da quantidade máxima                            |
 | Contador              | int                           | Indicação da quantidade atual                             |
 | Grafo                 | Ponteiro de grafo             | Grafo ao qual se refere a pilha                           |
-
-
-## Autores
-Ambos alunos de Engenharia de Computação, da Universidade Federal de Goiás.
 
 ## Compilação
 Para compilar, basta utilizar o seguinte comando:
