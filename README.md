@@ -13,6 +13,12 @@ Desenvolver o algoritmo utilizado no GPS atualmente. Consiste basicamente de um 
 * Ver tráfego atual do mapa
 * Definir destino
 * Obter melhor rota
+* Inserir destino 
+* Inserir conexão entre destinos
+* Atualizar trânsito
+* Visualizar log de rotas passadas
+* Visualizar todos os destinos cadastrados
+* Modo depuração para visualização de todas as rotas
 
 
 ## Tecnologia
