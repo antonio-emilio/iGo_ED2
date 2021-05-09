@@ -24,6 +24,7 @@
 #include "pilha.c"
 #include <time.h>
 #include "hash.c"
+#include "buscaSequencial.c"
 #include "quicksort.c"
 
 

@@ -9,18 +9,20 @@
 int main()
 {
     /*Instanciando e declarando variaveis locais*/
-    grafo *g;   /*Cria o ponteiro de grafo*/
-    FILE *f, *a;    /*Cria os ponteiros de arquivo*/
-    char buffer[100], aux[100], *temp;  /*Estruturas auxiliares*/
-    bool verticeIniciado = false;   /*Variavel para identificar a separacao entre vertices e nos dentro do arquivo de texto*/
-    int origem, dest, distancia2;   /*Variavel auxiliar para determinacao de origem, destino e distancia*/
-    int maximoVRand = 10, minimoVRand = 1;  /*Variavel auxiliar para geracao de valores aleatorios*/
-    double distancia;   /*Variavel que recebe a distancia (peso) em minutos de um trajeto*/
-    int modoDepuracao = 0; /*Modo depuracao para caso o usuario queira verificar todas as rotas existentes.*/
-    char texto_str[1024], nomeArquivo[1024];    /*Variaveis auxiliares para trabalhar com strings*/
-    int tempoEstimadoAtual; /*Variavel auxiliar para totalizacao de minutos em um trajeto.*/
-    nomeLocal = malloc(sizeof(char) * 50);  /*Malloc do ponteiro de char referente a origem do trajeto*/
+    grafo *g;                                /*Cria o ponteiro de grafo*/
+    FILE *f, *a;                             /*Cria os ponteiros de arquivo*/
+    char buffer[100], aux[100], *temp;       /*Estruturas auxiliares*/
+    bool verticeIniciado = false;            /*Variavel para identificar a separacao entre vertices e nos dentro do arquivo de texto*/
+    int origem, dest, distancia2;            /*Variavel auxiliar para determinacao de origem, destino e distancia*/
+    int maximoVRand = 10, minimoVRand = 1;   /*Variavel auxiliar para geracao de valores aleatorios*/
+    double distancia;                        /*Variavel que recebe a distancia (peso) em minutos de um trajeto*/
+    int modoDepuracao = 0;                   /*Modo depuracao para caso o usuario queira verificar todas as rotas existentes.*/
+    char texto_str[1024], nomeArquivo[1024]; /*Variaveis auxiliares para trabalhar com strings*/
+    int tempoEstimadoAtual;                  /*Variavel auxiliar para totalizacao de minutos em um trajeto.*/
+    nomeLocal = malloc(sizeof(char) * 50);   /*Malloc do ponteiro de char referente a origem do trajeto*/
     nomeDestino = malloc(sizeof(char) * 50); /*Malloc do ponteiro de char referente ao destino  do trajeto*/
+    int indOrigem = 0;
+    int indDestino = 0;
 
     /*Sempre volta ao menu depois que alguma opcao e escolhida.*/
     for (;;)
@@ -60,7 +62,8 @@ int main()
         printf("|7. Incluir ligacao no mapa;                                      |\n");
         printf("|8. Incluir local no mapa;                                        |\n");
         printf("|9. Mostrar locais do mapa;                                       |\n");
-        printf("|10. Sair;                                                        |\n");
+        printf("|10. Calcular uma rota aleatoria;                                 |\n");
+        printf("|11. Sair;                                                        |\n");
         printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
         defineCor('n');
         scanf("%d", &escolha);
@@ -259,7 +262,7 @@ int main()
             /*
             Abre o arquivo no modo de escrita e insere um caractere nulo.
             */
-            arquivo = fopen("ultimasRotas.txt", "w");/*Abre o arquivo digitado no modo escrita.*/
+            arquivo = fopen("ultimasRotas.txt", "w"); /*Abre o arquivo digitado no modo escrita.*/
 
             /*Se o arquivo não foi criado, retorna erro e finaliza o programa.*/
             if (arquivo == NULL)
@@ -267,8 +270,8 @@ int main()
                 printf("Erro na abertura do arquivo!");
                 return (0);
             }
-            fprintf(arquivo, "");/*Armazena a string dentro do arquivo.*/
-            fclose(arquivo);  /*Fecha o arquivo.*/
+            fprintf(arquivo, ""); /*Armazena a string dentro do arquivo.*/
+            fclose(arquivo);      /*Fecha o arquivo.*/
             printf("\n Ultimos destinos apagados com SUCESSO.\n");
 
             break;
@@ -631,7 +634,7 @@ int main()
             fclose(arquivo);
             verticeIniciado = false;
             printf("\nNOVO LOCAL INCLUIDO COM SUCESSO AO MAPA.\n");
-            arquivo = fopen("locaisMapa.txt", "a");/*Abre o arquivo digitado no modo escrita.*/
+            arquivo = fopen("locaisMapa.txt", "a"); /*Abre o arquivo digitado no modo escrita.*/
 
             /*Se o arquivo não foi criado, retorna erro e finaliza o, programa.*/
             if (arquivo == NULL)
@@ -639,8 +642,8 @@ int main()
                 printf("Erro na abertura do arquivo!");
                 return (0);
             }
-            fprintf(arquivo, "%s ", &nomeLocal);/*Armazena a string dentro do arquivo.*/
-            fclose(arquivo);/*Fecha o arquivo*/
+            fprintf(arquivo, "%s ", &nomeLocal); /*Armazena a string dentro do arquivo.*/
+            fclose(arquivo);                     /*Fecha o arquivo*/
 
             break;
 
@@ -648,10 +651,100 @@ int main()
             printf("\nMostrando todos os pontos do mapa ordenados por quicksort.\n");
             doQuickSort();
 
-
             break;
 
         case 10:
+            g = criarGrafo();
+            tempoEstimado = 0;
+
+            f = fopen("grafo_cidade.txt", "r");
+
+            /* Construção do grafo. */
+            while (fgets(buffer, 100, f) != NULL)
+            {
+                if (!verticeIniciado)
+                {
+                    if (*buffer == '\n')
+                    {
+                        continue;
+                    }
+                    if (strcmp(buffer, "---\n") == 0)
+                    {
+                        verticeIniciado = true;
+                        continue;
+                    }
+                    sscanf(buffer, "%d) %[^\n]", &origem, aux);
+                    temp = malloc(strlen(aux) + 1);
+                    strcpy(temp, aux);
+                    adicionarNo(g, temp);
+                }
+                else
+                {
+                    if (*buffer == '\n')
+                    {
+                        continue;
+                    }
+                    sscanf(buffer, "%d -> %d %lf\n", &origem, &dest, &distancia);
+                    adicionaVertice(g, origem, dest, distancia);
+                }
+            }
+
+            fclose(f);
+            srand(time(0)); //Utiliza o "timestamp" atual para gerar numeros aleatorios.
+            indDestino = ExecutaBuscaSequencial(((rand() % (maximoVRand - minimoVRand + 1)) + minimoVRand));
+            printf("\nVoce esta partindo de \"Minha Casa\" e indo para %s.\n", g->nos[indDestino].nome);
+
+            //Abre o arquivo digitado no modo escrita.
+            arquivo = fopen("ultimasRotas.txt", "a");
+
+            //Se o arquivo não foi criado, retorna erro e finaliza o programa.
+            if (arquivo == NULL)
+            {
+                printf("Erro na abertura do arquivo!");
+                return (0);
+            }
+
+            time(&rawtime);
+            timeinfo = localtime(&rawtime);
+
+            //Armazena a string dentro do arquivo.
+            fprintf(arquivo, "Trajeto: %s -> %s - ", &nomeLocal, &nomeDestino);
+
+            //Fecha o arquivo.
+            fclose(arquivo);
+
+            dijkstra(g, 0);
+            tempo = mostraCaminhos(g, indDestino, modoDepuracao, 0);
+            verticeIniciado = false;
+            if (tempo != 0)
+            {
+
+                //Abre o arquivo digitado no modo escrita.
+                arquivo = fopen("ultimasRotas.txt", "a");
+
+                //Se o arquivo não foi criado, retorna erro e finaliza o programa.
+                if (arquivo == NULL)
+                {
+                    printf("Erro na abertura do arquivo!");
+                    return (0);
+                }
+
+                time_t rawtime;
+                struct tm *timeinfo;
+
+                time(&rawtime);
+                timeinfo = localtime(&rawtime);
+
+                //Armazena a string dentro do arquivo.
+                fprintf(arquivo, " Data e hora do percurso: %s - Tempo de percurso: %d min\n", asctime(timeinfo), tempo);
+
+                //Fecha o arquivo.
+                fclose(arquivo);
+            }
+
+            break;
+
+        case 11:
             liberaGrafo(g);
             return 0;
             break;
