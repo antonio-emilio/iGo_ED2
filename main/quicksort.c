@@ -79,10 +79,10 @@ int main()
 
 #include <stdio.h>
 #include <string.h>
-#define max 50 //Tamanho maximo
+#define max 500 //Tamanho maximo
 struct destino
 {
-    char a[8196];
+    char a[100];
 };
 
 void quicksort(struct destino items[], int left, int right); //function for quick sort
@@ -93,29 +93,27 @@ int doQuickSort()
     int i = 0, k = 0, n;
     char fname[10], str[10], c;
     struct destino name[max];
+    char *texto_str[1024];
 
     fp = fopen("locaisMapa.txt", "r"); //Abre o arquivo em modo de escrita.
-    while ((c = getc(fp)) != EOF)
-    {
-        if (c == ' ')
-        {
-            str[i] = '\0';
-            strcpy(name[k].a, str); //Copia a string nome por nome
-            i = 0;
-            k++;
-        }
-        else
-        {
-            str[i] = c;
-            i++;
-        }
-    }
+    while (fgets(texto_str, 1024, fp) != NULL)
+    
     fclose(fp);
-    quicksort(name, 0, k - 1); //Chamando a função de quicksort
 
-    for (i = 0; i <= k; i++)
+    char *token = strtok(texto_str, " ");
+
+    while (token != NULL)
     {
-        printf("%s,", name[i].a); //Faz o pritn dos nomes ordenados.
+        strcpy(name[k].a, token);
+        k++;
+        token = strtok(NULL, " ");
+    }
+
+    quicksort(name, 0, k - 2); //Chamando a função de quicksort
+
+    for (i = 0; i < k; i++)
+    {
+        printf("%s,", name[i].a); //Faz o print dos nomes ordenados.
     }
 
     return 0;
