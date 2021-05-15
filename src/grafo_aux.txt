@@ -1,28 +1,39 @@
-0) Minha-Casa
-1) Rua-Buriti
-2) Rua-Bela-Vista
+0) Flamboyant
+1) Av-Jamel-Cecilio
+2) Marginal-Botafogo
 3) Carrefour
-4) Flamboyant
-5) Av-Jamel-Cecilio
-6) Marginal-Botafogo
-7) Av-Universitaria
-8) UFG
-9) BR-153
-10) HC-UFG
+4) Rua-Bela-Vista
+5) UFG
+6) BR-153
+7) Rua-Buriti
+8) Av-Universitaria
+9) Minha-Casa
+
 ---
-0 -> 1 7
-0 -> 7 250
-1 -> 2 3
-2 -> 5 5
-5 -> 4 2
-5 -> 3 6
-5 -> 6 2
-5 -> 9 2
-9 -> 2 3
-7 -> 8 5
-2 -> 3 52
-6 -> 7 100
-8 -> 7 5
-7 -> 6 5
-6 -> 5 5
-8 -> 10 1
+
+0 -> 1 1
+1 -> 0 1
+0 -> 2 1
+2 -> 0 1
+1 -> 4 1
+4 -> 1 1
+1 -> 3 1
+3 -> 1 1
+2 -> 3 1
+3 -> 2 1
+2 -> 5 1
+5 -> 2 1
+3 -> 6 1
+6 -> 3 1
+6 -> 7 1
+7 -> 6 1
+7 -> 4 1
+4 -> 7 1
+7 -> 9 1
+9 -> 7 1
+9 -> 8 1
+8 -> 9 1
+8 -> 5 1
+5 -> 8 1
+8 -> 6 1
+6 -> 8 1
