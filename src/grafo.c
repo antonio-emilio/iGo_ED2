@@ -180,6 +180,7 @@ int mostraCaminhos(grafo *g, int destinoMarcado, int modoDepuracao, int origemMa
 	indices = NULL;
 	tempoEstimado = 0;
 
+	/*Iniciando do destino, vai "voltando" no grafico até encontrar a origem e colocando num vetor por quais pontos ele passou.*/
 	if (destinoMarcado != -1)
 	{
 		indices = malloc(sizeof(int) * contador);
@@ -194,6 +195,7 @@ int mostraCaminhos(grafo *g, int destinoMarcado, int modoDepuracao, int origemMa
 			index = (g->nos[index].anterior);
 		}
 	}
+	
 
 	for (i = 0; i < contador; i++)
 	{
