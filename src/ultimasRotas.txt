@@ -1,34 +1,6 @@
-Trajeto: Minha-Casa -> Flamboyant -  Data e hora do percurso: Sat May 15 15:18:32 2021
- - Tempo de percurso: 15 min
-Trajeto: Minha-Casa -> UFG -  Data e hora do percurso: Sat May 15 15:26:24 2021
- - Tempo de percurso: 2 min
-Trajeto: Minha-Casa -> Flamboyant -  Data e hora do percurso: Sat May 15 15:26:36 2021
- - Tempo de percurso: 4 min
-Trajeto: Minha-Casa -> Flamboyant -  Data e hora do percurso: Sat May 15 15:30:38 2021
- - Tempo de percurso: 8 min
-Trajeto: Minha-Casa -> Flamboyant -  Data e hora do percurso: Sat May 15 15:30:59 2021
- - Tempo de percurso: 22 min
-Trajeto: Minha-Casa -> Flamboyant -  Data e hora do percurso: Sat May 15 15:31:14 2021
- - Tempo de percurso: 22 min
-Trajeto: Minha-Casa -> Rua-Bela-Vista -  Data e hora do percurso: Sat May 15 15:31:32 2021
+Trajeto: Minha-Casa -> Rua-Bela-Vista -  Data e hora do percurso: Thu May 20 23:36:08 2021
  - Tempo de percurso: 11 min
-Trajeto: Minha-Casa -> Flamboynat - Trajeto: Minha-Casa -> Flamboyant - Trajeto: Minha-Casa -> Flamboyant - Trajeto: Minha-Casa -> Marginal-Botafogo -  Data e hora do percurso: Sat May 15 15:34:08 2021
- - Tempo de percurso: 15 min
-Trajeto: Minha-Casa -> Flamboyant -  Data e hora do percurso: Sat May 15 15:35:18 2021
- - Tempo de percurso: 15 min
-Trajeto: UFG -> Av-Jamel-Cecilio -  Data e hora do percurso: Sat May 15 15:40:34 2021
- - Tempo de percurso: 9 min
-Trajeto: UFG -> Rua-Bela-Vista -  Data e hora do percurso: Sat May 15 15:40:58 2021
- - Tempo de percurso: 19 min
-Trajeto: Minha-Casa -> Flamboyant -  Data e hora do percurso: Sat May 15 15:50:33 2021
- - Tempo de percurso: 12 min
-Trajeto: Minha-Casa -> Flamboyant -  Data e hora do percurso: Sat May 15 15:55:50 2021
- - Tempo de percurso: 16 min
-Trajeto: Minha-Casa -> Flamboyant -  Data e hora do percurso: Sat May 15 15:56:20 2021
- - Tempo de percurso: 19 min
-Trajeto: Flamboyant -> Minha-Casa -  Data e hora do percurso: Sat May 15 15:56:57 2021
+Trajeto: Minha-Casa -> Rua-Buriti -  Data e hora do percurso: Thu May 20 23:36:09 2021
+ - Tempo de percurso: 1 min
+Trajeto: Minha-Casa -> Av-Jamel-Cecilio -  Data e hora do percurso: Thu May 20 23:36:10 2021
  - Tempo de percurso: 8 min
-Trajeto: Flamboyant -> Minha-Casa -  Data e hora do percurso: Sat May 15 15:57:26 2021
- - Tempo de percurso: 8 min
-Trajeto: Minha-Casa -> Flamboyant -  Data e hora do percurso: Sat May 15 15:57:46 2021
- - Tempo de percurso: 11 min

@@ -21,8 +21,8 @@ int main()
     int tempoEstimadoAtual;                  /*Variavel auxiliar para totalizacao de minutos em um trajeto.*/
     nomeLocal = malloc(sizeof(char) * 50);   /*Malloc do ponteiro de char referente a origem do trajeto*/
     nomeDestino = malloc(sizeof(char) * 50); /*Malloc do ponteiro de char referente ao destino  do trajeto*/
-    int indOrigem = 0;
-    int indDestino = 0;
+    int indOrigem = 0;                       /*Variavel auxiliar para função de rotas aleatórias.*/
+    int indDestino = 0;                      /*Variavel auxiliar para função de rotas aleatórias.*/
 
     /*Sempre volta ao menu depois que alguma opcao e escolhida.*/
     for (;;)
@@ -80,14 +80,16 @@ int main()
             printf("\nOnde deseja ir?\n");
             scanf("%s", &nomeDestino);
 
-            tempoEstimado = 0;
+            tempoEstimado = 0;  /*Inicia variavel em zero.*/
 
             g = criarGrafo();
             f = fopen("grafo_cidade.txt", "r");
+            /*Abrindo o arquivo de texto com os dados atuais da cidade. */
 
             /* Construção do grafo. */
             while (fgets(buffer, 100, f) != NULL)
             {
+                /*Enquanto não chegou nos traços de separação...*/
                 if (!verticeIniciado)
                 {
                     if (*buffer == '\n')
@@ -647,13 +649,23 @@ int main()
 
             break;
 
+        /*
+        Executa um quicksort em strings do arquivo locaisMapa.txt, que contém todos os nós (pontos) do mapa. 
+        Mostra todos os pontos da cidade, ordenados através do algoritmo.
+        */
         case 9:
             printf("\nMostrando todos os pontos do mapa ordenados por quicksort.\n");
             doQuickSort();
 
             break;
 
+
+        /*
+        Estipula uma rota aleatória, partindo da origem "Minha Casa" e indo para um destino aleatório. O número aleatório é gerado a cada solicitação.
+        Este por sua vez, será usado como índice desejado em uma pesquisa sequencial de uma lista pre-estabelecida.6
+        */
         case 10:
+            indOrigem = ExecutaBuscaSequencial(((rand() % (maximoVRand - minimoVRand + 1)) + minimoVRand));
             g = criarGrafo();
             tempoEstimado = 0;
 
@@ -692,6 +704,8 @@ int main()
             fclose(f);
             srand(time(0)); //Utiliza o "timestamp" atual para gerar numeros aleatorios.
             indDestino = ExecutaBuscaSequencial(((rand() % (maximoVRand - minimoVRand + 1)) + minimoVRand));
+            
+
             printf("\nVoce esta partindo de \"Minha Casa\" e indo para %s.\n", g->nos[indDestino].nome);
 
             //Abre o arquivo digitado no modo escrita.
@@ -708,12 +722,12 @@ int main()
             timeinfo = localtime(&rawtime);
 
             //Armazena a string dentro do arquivo.
-            fprintf(arquivo, "Trajeto: %s -> %s - ", &nomeLocal, &nomeDestino);
+            fprintf(arquivo, "Trajeto: Minha-Casa -> %s - ",  g->nos[indDestino].nome);
 
             //Fecha o arquivo.
             fclose(arquivo);
 
-            dijkstra(g, 0);
+            dijkstra(g, 9);
             tempo = mostraCaminhos(g, indDestino, modoDepuracao, 0);
             verticeIniciado = false;
             if (tempo != 0)

@@ -11,6 +11,8 @@
     Disciplina: Estrutura de Dados II
 */
 
+
+/*Includes globais*/
 #include <stdlib.h>
 #include <string.h>
 #include "globalvar.h"
@@ -23,7 +25,6 @@
 #include "pilha.h"
 #include "pilha.c"
 #include <time.h>
-#include "hash.c"
 #include "buscaSequencial.c"
 #include "quicksort.c"
 
