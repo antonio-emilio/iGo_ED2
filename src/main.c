@@ -2,7 +2,38 @@
     iGo - Caminhos inteligentes.
     Alunos: Melyssa Mariana Gomes Silva e Antonio Emilio Pereira
     Disciplina: Estrutura de Dados II
+
+    Proposta:
+        Desenvolver o algoritmo utilizado no GPS atualmente. Consiste basicamente de um sistema de grafos denomidados "Cidade", ao qual será possível escolher
+        dentre vários mapas. Dentro de cada mapa, o usuário poderá escolher até qual ponto ele deseja se locomover. Assim que a entrada de dados é processada, 
+        o algoritmo de Dijkstra busca qual é o percurso com menor tempo possível, retornando as rotas para o usuário.
+
+    Funcionalidades:
+        
+        Selecionar mapa
+        Mostrar mapa
+        Ver tráfego atual do mapa
+        Definir destino
+        Obter melhor rota
+        Inserir destino
+        Inserir conexão entre destinos
+        Atualizar trânsito
+        Visualizar log de rotas passadas
+        Visualizar todos os destinos cadastrados
+        Modo depuração para visualização de todas as rotas
+
+    Compilação e execução:
+
+        Para compilar, basta utilizar o seguinte comando:
+            gcc main.c -o run.exe
+
+        Para rodar o programa, basta utilizar o seguinte comando:
+            ./run.exe
 */
+
+
+
+
 
 #include "prototypes.h"
 
